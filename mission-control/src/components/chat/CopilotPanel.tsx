@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { askCopilot } from "../../api/copilot";
+import { runCopilotAction } from "../../api/copilotActions";
 import {
   Bot,
   User,
@@ -77,7 +78,31 @@ export default function CopilotPanel() {
 
   }
 
-  async function send(text?: string) {
+  
+async function executeAction(action:any){
+
+    const result = await runCopilotAction(action.action);
+
+    const impact = result.result;
+
+    setConversation(c=>[
+        ...c,
+        {
+            role:"assistant",
+            text:
+`Impact Analysis
+
+Severity : ${impact.severity}
+
+Affected Components : ${impact.count}
+
+${impact.affected.join("\n")}`
+        }
+    ]);
+
+}
+
+async function send(text?: string) {
 
     const msg = text || message;
 
@@ -209,6 +234,7 @@ export default function CopilotPanel() {
                   <button
                     key={i}
                     className="rounded-lg bg-cyan-600 hover:bg-cyan-500 transition px-3 py-2 text-sm"
+                    onClick={() => executeAction(a)}
                   >
                     {a.title}
                   </button>
