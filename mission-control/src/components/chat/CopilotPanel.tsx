@@ -29,7 +29,7 @@ export default function CopilotPanel() {
     setLoading(true);
 
     try {
-      const res = await askCopilot(msg);
+      const res = await askCopilot(msg, "dashboard");
       setConversation((c) => [
         ...c,
         {
