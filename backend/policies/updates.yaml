@@ -1,0 +1,9 @@
+id: critical_incidents
+enabled: true
+priority: 90
+when:
+  critical_incidents: true
+deny:
+  - proxmox.update
+  - docker.update
+message: Critical incidents exist.

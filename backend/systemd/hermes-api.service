@@ -1,0 +1,17 @@
+[Unit]
+Description=Hermes API
+After=network.target hermes-guardian.service
+
+[Service]
+Type=simple
+User=hermes
+Group=hermes
+WorkingDirectory=/home/hermes/homelab-plugin
+Environment=PYTHONPATH=/home/hermes/homelab-plugin
+EnvironmentFile=-/etc/default/hermes
+ExecStart=/usr/bin/python3 -m uvicorn api.server:app --host 0.0.0.0 --port 8088
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

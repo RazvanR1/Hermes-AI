@@ -1,0 +1,9 @@
+id: storage_protection
+enabled: true
+priority: 100
+when:
+  truenas: degraded
+deny:
+  - proxmox.update
+  - truenas.update
+message: TrueNAS storage is degraded.

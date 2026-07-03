@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+
+.env
+.env.*
+
+backend/.venv/
+
+mission-control/node_modules/
+mission-control/dist/
+
+.vscode/
+.idea/
+
+*.log
