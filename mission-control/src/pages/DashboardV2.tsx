@@ -5,6 +5,7 @@ import PageContainer from "../components/ui/PageContainer";
 import ProgressRing from "../components/ui/ProgressRing";
 import StatusBadge from "../components/ui/StatusBadge";
 import CopilotPanel from "../components/chat/CopilotPanel";
+import AIWorkforce from "../components/dashboard/AIWorkforce";
 
 const agentCards = [
   { name: "Guardian", status: "Scanning", progress: "98%", color: "text-green-400" },
@@ -44,6 +45,8 @@ export default function DashboardV2() {
             ● Live · {new Date(data.generated_at).toLocaleTimeString()}
           </div>
         </div>
+
+        <AIWorkforce />
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
           <Card className="xl:col-span-4 bg-gradient-to-br from-slate-900 to-cyan-950/30">
