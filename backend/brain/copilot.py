@@ -1,12 +1,13 @@
 from brain import session
+from brain import context_engine
 
 def chat(message: str, session_id: str = "default"):
-    from brain import dashboard
     from core import decision
 
     session.add(session_id, "user", message)
 
-    data = dashboard.build()
+    ctx = context_engine.build(session_id)
+    data = ctx["dashboard"]
     q = (message or "").lower()
 
     intent = "general"
@@ -120,6 +121,7 @@ def chat(message: str, session_id: str = "default"):
         "confidence": 0.9,
         "answer": answer,
         "context_used": [
+            "context_engine",
             "dashboard",
             "recommendations",
             "tasks",
