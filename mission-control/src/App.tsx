@@ -1,10 +1,10 @@
 import MainLayout from "./layouts/MainLayout";
-import Dashboard from "./pages/Dashboard";
+import DashboardV2 from "./pages/DashboardV2";
 
 function App() {
   return (
     <MainLayout>
-      <Dashboard />
+      <DashboardV2 />
     </MainLayout>
   );
 }
