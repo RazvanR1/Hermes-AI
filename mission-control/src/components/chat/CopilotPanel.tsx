@@ -128,7 +128,17 @@ async function send(text?: string) {
       );
 
       await typeAnswer(
-        res.answer,
+        `${res.answer}
+
+━━━━━━━━━━━━━━━━━━━━
+
+${res.reasoning.explanation}
+
+━━━━━━━━━━━━━━━━━━━━
+
+PLAN
+
+${res.plan.steps.map((s:any)=>`${s.step}. ${s.title}`).join("\n")}`, 
         res.actions || []
       );
 
