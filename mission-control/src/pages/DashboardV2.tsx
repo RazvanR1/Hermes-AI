@@ -111,7 +111,7 @@ export default function DashboardV2() {
             <div className="space-y-4">
               {data.recommendations.map((r, i) => (
                 <div key={i} className="rounded-xl bg-slate-950/70 border border-slate-800 p-4">
-                  <div className="text-amber-300 font-bold">{r.title || r.provider}</div>
+                  <div className="text-amber-300 font-bold">{r.provider}</div>
                   <div className="text-slate-300 text-sm mt-2">{r.recommendation}</div>
                 </div>
               ))}
