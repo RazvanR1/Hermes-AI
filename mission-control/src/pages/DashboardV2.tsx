@@ -4,8 +4,8 @@ import Card from "../components/ui/Card";
 import PageContainer from "../components/ui/PageContainer";
 import ProgressRing from "../components/ui/ProgressRing";
 import StatusBadge from "../components/ui/StatusBadge";
-import CopilotPanel from "../components/chat/CopilotPanel";
 import AIWorkforce from "../components/dashboard/AIWorkforce";
+import MissionConsole from "../components/dashboard/MissionConsole";
 
 const agentCards = [
   { name: "Guardian", status: "Scanning", progress: "98%", color: "text-green-400" },
@@ -47,6 +47,10 @@ export default function DashboardV2() {
         </div>
 
         <AIWorkforce />
+
+        <div className="mt-6">
+          <MissionConsole />
+        </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
           <Card className="xl:col-span-4 bg-gradient-to-br from-slate-900 to-cyan-950/30">
@@ -140,7 +144,7 @@ export default function DashboardV2() {
         </div>
 
         <Card>
-          <CopilotPanel />
+          <MissionConsole />
         </Card>
       </div>
     </PageContainer>
