@@ -1,18 +1,18 @@
-import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
+import type { ReactNode } from "react";
+import BackgroundFX from "../components/layout/BackgroundFX";
+import SidebarV2 from "../components/layout/SidebarV2";
+import TopBarV2 from "../components/layout/TopBarV2";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex h-screen bg-slate-950 text-white">
-      <Sidebar />
+    <div className="min-h-screen text-white">
+      <BackgroundFX />
+      <SidebarV2 />
 
-      <div className="flex-1 flex flex-col">
-        <Topbar />
-
-        <main className="flex-1 overflow-auto p-6">
-          {children}
-        </main>
-      </div>
+      <main className="ml-72 min-h-screen">
+        <TopBarV2 />
+        {children}
+      </main>
     </div>
   );
 }
