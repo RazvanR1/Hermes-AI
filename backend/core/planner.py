@@ -1,32 +1,77 @@
-def build_plan(context):
-    inventory = context.get("inventory", {}) or {}
-    health = context.get("health", {}) or {}
+from typing import Dict, Any, List
 
-    plan = {
-        "version": "v6-core-planner",
-        "health": health.get("score") or health.get("health_score"),
-        "critical": [],
-        "warnings": [],
-        "recommendations": [],
-        "safe_actions": [],
-        "confirm_actions": [],
-        "dangerous_actions": [],
-        "inventory_summary": inventory.get("summary", {}),
+def build(task: str, ctx: Dict[str, Any]) -> Dict[str, Any]:
+
+    task_lower = task.lower()
+
+    steps: List[dict] = []
+
+    if "proxmox" in task_lower and ("update" in task_lower or "actualiz" in task_lower):
+
+        steps = [
+            {
+                "step": 1,
+                "title": "Check backups",
+                "status": "pending",
+                "action": "backup.verify"
+            },
+            {
+                "step": 2,
+                "title": "Check TrueNAS",
+                "status": "pending",
+                "action": "storage.verify"
+            },
+            {
+                "step": 3,
+                "title": "Check OPNsense",
+                "status": "pending",
+                "action": "opnsense.verify"
+            },
+            {
+                "step": 4,
+                "title": "Check running containers",
+                "status": "pending",
+                "action": "docker.verify"
+            },
+            {
+                "step": 5,
+                "title": "Run update",
+                "status": "pending",
+                "action": "proxmox.update"
+            },
+            {
+                "step": 6,
+                "title": "Verify services",
+                "status": "pending",
+                "action": "guardian.verify"
+            }
+            ]
+
+    else:
+
+        steps = [
+            {
+                "step":1,
+                "title":"Analyze task",
+                "status":"pending",
+                "action":"analysis"
+            },
+            {
+                "step":2,
+                "title":"Execute",
+                "status":"pending",
+                "action":"execute"
+            }
+        ]
+
+    return {
+
+        "mode":"plan_v1",
+
+        "task":task,
+
+        "steps":steps,
+
+        "estimated_duration":len(steps)*2
+
     }
-
-    for warning in inventory.get("warnings", []):
-        plan["warnings"].append(warning)
-
-    summary = inventory.get("summary", {})
-    if summary.get("docker_exited", 0):
-        plan["warnings"].append(f"{summary['docker_exited']} containere Docker nu rulează")
-        plan["safe_actions"].append({
-            "action": "inspect_docker_exited",
-            "label": "Verifică containerele Docker oprite",
-            "policy": "SAFE",
-        })
-
-    if summary.get("opnsense") == "error":
-        plan["warnings"].append("OPNsense nu a putut fi verificat prin API")
-
-    return plan
