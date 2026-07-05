@@ -1,11 +1,14 @@
 import MainLayout from "./layouts/MainLayout";
-import Dashboard from "./pages/Dashboard";
+import DashboardV2 from "./pages/DashboardV2";
+import { AgentStoreProvider } from "./context/AgentStore";
 
 function App() {
   return (
-    <MainLayout>
-      <Dashboard />
-    </MainLayout>
+    <AgentStoreProvider>
+      <MainLayout>
+        <DashboardV2 />
+      </MainLayout>
+    </AgentStoreProvider>
   );
 }
 
