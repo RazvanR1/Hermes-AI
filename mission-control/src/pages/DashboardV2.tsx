@@ -1,23 +1,14 @@
-import { Cpu, Shield, Server, Database, Home, Activity } from "lucide-react";
 import { useDashboard } from "../hooks/useDashboard";
 import PageContainer from "../components/ui/PageContainer";
 import ProgressRing from "../components/ui/ProgressRing";
-import StatusBadge from "../components/ui/StatusBadge";
 import GlassPanel from "../components/ui/GlassPanel";
 import AIWorkforce from "../components/dashboard/AIWorkforce";
 import MissionConsole from "../components/dashboard/MissionConsole";
 import SystemPulse from "../components/dashboard/SystemPulse";
 import HeroStats from "../components/dashboard/HeroStats";
 import InfrastructureMap from "../components/infrastructure/InfrastructureMap";
+import ProviderGrid from "../components/providers/ProviderGrid";
 
-function iconFor(name: string) {
-  if (name === "Docker") return <Cpu size={22} />;
-  if (name === "Proxmox") return <Server size={22} />;
-  if (name === "TrueNAS") return <Database size={22} />;
-  if (name === "OPNsense") return <Shield size={22} />;
-  if (name === "Home Assistant") return <Home size={22} />;
-  return <Activity size={22} />;
-}
 
 export default function DashboardV2() {
   const { data, loading, error } = useDashboard();
@@ -90,30 +81,19 @@ export default function DashboardV2() {
             </div>
           </GlassPanel>
 
-          <GlassPanel className="xl:col-span-8 p-6">
-            <div className="mb-5">
-              <h2 className="text-xl font-bold">Infrastructure</h2>
-              <p className="text-slate-400 text-sm">Connected providers</p>
-            </div>
+          
+<GlassPanel className="xl:col-span-8 p-6">
+  <div className="mb-5">
+    <h2 className="text-xl font-bold">Infrastructure Providers</h2>
+    <p className="text-slate-400 text-sm">
+      Live infrastructure metrics
+    </p>
+  </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              {data.providers.map((p) => (
-                <div
-                  key={p.name}
-                  className="rounded-2xl bg-slate-950/70 border border-slate-800 p-4 hover:border-cyan-500/40 transition"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-cyan-300">{iconFor(p.name)}</div>
-                    <StatusBadge status={p.status} />
-                  </div>
+  <ProviderGrid />
 
-                  <div className="font-bold mt-4">{p.name}</div>
-                  <div className="text-2xl font-black mt-1">{p.primary}</div>
-                  <div className="text-slate-500 text-sm mt-1">{p.secondary}</div>
-                </div>
-              ))}
-            </div>
-          </GlassPanel>
+</GlassPanel>
+
         </div>
 
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
