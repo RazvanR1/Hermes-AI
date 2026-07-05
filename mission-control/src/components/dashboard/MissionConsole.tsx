@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sparkles, Send, Brain, ClipboardList, ShieldAlert } from "lucide-react";
 import GlassPanel from "../ui/GlassPanel";
 import { runMission, type MissionResponse } from "../../api/missions";
+import { approveMission } from "../../api/approval";
 import { useAgentStore } from "../../context/AgentStore";
 
 const quick = [
@@ -128,6 +129,39 @@ export default function MissionConsole() {
     }
   }
 
+
+  async function approve() {
+    if (!result) return;
+
+    setLoading(true);
+
+    try {
+      const res = await approveMission(result.mission);
+
+      setTimeline(prev => [
+        ...prev,
+        ...res.events.map(e => `${e.agent}: ${e.status}`)
+      ]);
+
+      updateAgent("Executor", {
+        status: "running",
+        task: "Executing mission...",
+        progress: 100,
+        tone: "success",
+      });
+
+      updateAgent("Guardian", {
+        status: "running",
+        task: "Verifying services...",
+        progress: 100,
+        tone: "success",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
   return (
     <GlassPanel className="p-6">
       <div className="flex items-center gap-3 mb-6">
@@ -202,7 +236,19 @@ export default function MissionConsole() {
         </div>
       )}
 
-      {result && (
+      
+{result?.approval_required && (
+  <button
+    onClick={approve}
+    className="mt-6 w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3 font-bold text-slate-950 transition"
+  >
+    ✅ Approve Mission
+  </button>
+)
+}
+
+
+{result && (
         <div className="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-4">
           <div className="rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5">
             <div className="flex items-center gap-2 text-cyan-300 font-bold mb-3">
