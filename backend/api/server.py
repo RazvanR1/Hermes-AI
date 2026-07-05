@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import health, brain, tasks, dashboard, copilot, copilot_actions, context, reasoning, planner, copilot_execute, agents, missions
+from api.routes import health, brain, tasks, dashboard, copilot, copilot_actions, context, reasoning, planner, copilot_execute, agents, missions, approval
 
 app = FastAPI(title="Hermes API", version="1.0")
 
@@ -25,6 +25,7 @@ app.include_router(planner.router)
 app.include_router(copilot_execute.router)
 app.include_router(agents.router)
 app.include_router(missions.router)
+app.include_router(approval.router)
 
 # API v1 routes
 app.include_router(health.router, prefix="/api/v1")
@@ -39,3 +40,4 @@ app.include_router(planner.router, prefix="/api/v1")
 app.include_router(copilot_execute.router, prefix="/api/v1")
 app.include_router(agents.router, prefix="/api/v1")
 app.include_router(missions.router, prefix="/api/v1")
+app.include_router(approval.router, prefix="/api/v1")
