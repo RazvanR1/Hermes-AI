@@ -7,6 +7,7 @@ import GlassPanel from "../components/ui/GlassPanel";
 import AIWorkforce from "../components/dashboard/AIWorkforce";
 import MissionConsole from "../components/dashboard/MissionConsole";
 import SystemPulse from "../components/dashboard/SystemPulse";
+import HeroStats from "../components/dashboard/HeroStats";
 
 function iconFor(name: string) {
   if (name === "Docker") return <Cpu size={22} />;
@@ -57,7 +58,8 @@ export default function DashboardV2() {
             <div className="mt-5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-5 py-2 text-cyan-300 w-fit">
               ● Live · {new Date(data.generated_at).toLocaleTimeString()}
             </div>
-          </div>
+                    <HeroStats />
+        </div>
 
           <SystemPulse />
         </div>
