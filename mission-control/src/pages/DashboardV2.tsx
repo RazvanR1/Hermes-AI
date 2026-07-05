@@ -8,6 +8,7 @@ import AIWorkforce from "../components/dashboard/AIWorkforce";
 import MissionConsole from "../components/dashboard/MissionConsole";
 import SystemPulse from "../components/dashboard/SystemPulse";
 import HeroStats from "../components/dashboard/HeroStats";
+import InfrastructureMap from "../components/infrastructure/InfrastructureMap";
 
 function iconFor(name: string) {
   if (name === "Docker") return <Cpu size={22} />;
@@ -70,7 +71,9 @@ export default function DashboardV2() {
           <MissionConsole />
         </div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <InfrastructureMap />
+
+<div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
           <GlassPanel className="xl:col-span-4 p-6 bg-gradient-to-br from-slate-900/70 to-cyan-950/30">
             <div className="flex items-center justify-between">
               <div>
