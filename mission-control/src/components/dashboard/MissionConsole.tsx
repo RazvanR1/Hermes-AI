@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sparkles, Send, Brain, ClipboardList, ShieldAlert } from "lucide-react";
 import GlassPanel from "../ui/GlassPanel";
 import { askCopilot, type ExecuteResponse } from "../../api/copilot";
+import { useAgentStore } from "../../context/AgentStore";
 
 const quick = [
   "Actualizează Proxmox",
@@ -26,6 +27,7 @@ export default function MissionConsole() {
   const [loading, setLoading] = useState(false);
   const [timeline, setTimeline] = useState<string[]>([]);
   const [result, setResult] = useState<ExecuteResponse | null>(null);
+  const { updateAgent, resetAgents } = useAgentStore();
 
   async function executeMission() {
     if (!mission.trim()) return;
@@ -34,14 +36,93 @@ export default function MissionConsole() {
     setResult(null);
     setTimeline([]);
 
+    resetAgents();
+
+    updateAgent("Guardian", {
+      status: "running",
+      task: "Scanning infrastructure...",
+      progress: 15,
+      tone: "success",
+    });
+
     for (const step of thinkingSteps) {
       setTimeline((prev) => [...prev, step]);
+
+      if (step.includes("Guardian") || step.includes("infrastructure")) {
+        updateAgent("Guardian", {
+          status: "running",
+          task: step,
+          progress: 55,
+          tone: "success",
+        });
+      }
+
+      if (step.includes("reasoning")) {
+        updateAgent("Guardian", {
+          task: "Infrastructure scanned",
+          progress: 100,
+        });
+
+        updateAgent("Reasoner", {
+          status: "running",
+          task: "Calculating risks...",
+          progress: 70,
+          tone: "purple",
+        });
+      }
+
+      if (step.includes("execution plan")) {
+        updateAgent("Planner", {
+          status: "running",
+          task: "Building execution plan...",
+          progress: 75,
+          tone: "primary",
+        });
+      }
+
+      if (step.includes("impact")) {
+        updateAgent("Research", {
+          status: "running",
+          task: "Calculating impact...",
+          progress: 80,
+          tone: "warning",
+        });
+      }
+
       await new Promise((r) => setTimeout(r, 450));
     }
 
     try {
       const res = await askCopilot(mission, "dashboard");
       setResult(res);
+
+      updateAgent("Planner", {
+        status: "ready",
+        task: "Execution plan ready",
+        progress: 100,
+        tone: "primary",
+      });
+
+      updateAgent("Reasoner", {
+        status: "ready",
+        task: "Risk analysis complete",
+        progress: 100,
+        tone: "purple",
+      });
+
+      updateAgent("Research", {
+        status: "ready",
+        task: "Impact analysis complete",
+        progress: 100,
+        tone: "warning",
+      });
+
+      updateAgent("Executor", {
+        status: "waiting approval",
+        task: "Mission ready",
+        progress: 100,
+        tone: "warning",
+      });
     } finally {
       setLoading(false);
     }
