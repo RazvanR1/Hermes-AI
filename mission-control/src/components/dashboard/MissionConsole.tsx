@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sparkles, Send, Brain, ClipboardList, ShieldAlert } from "lucide-react";
 import GlassPanel from "../ui/GlassPanel";
-import { askCopilot, type ExecuteResponse } from "../../api/copilot";
+import { runMission, type MissionResponse } from "../../api/missions";
 import { useAgentStore } from "../../context/AgentStore";
 
 const quick = [
@@ -26,7 +26,7 @@ export default function MissionConsole() {
   const [mission, setMission] = useState("");
   const [loading, setLoading] = useState(false);
   const [timeline, setTimeline] = useState<string[]>([]);
-  const [result, setResult] = useState<ExecuteResponse | null>(null);
+  const [result, setResult] = useState<MissionResponse | null>(null);
   const { updateAgent, resetAgents } = useAgentStore();
 
   async function executeMission() {
@@ -93,7 +93,7 @@ export default function MissionConsole() {
     }
 
     try {
-      const res = await askCopilot(mission, "dashboard");
+      const res = await runMission(mission);
       setResult(res);
 
       updateAgent("Planner", {
@@ -239,21 +239,8 @@ export default function MissionConsole() {
             </div>
 
             <div className="text-sm text-slate-300 leading-6">
-              {result.answer}
+              {result.report.recommendation}
             </div>
-
-            {result.actions.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {result.actions.map((a) => (
-                  <button
-                    key={a.action}
-                    className="rounded-xl border border-amber-400/20 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"
-                  >
-                    {a.title}
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       )}
