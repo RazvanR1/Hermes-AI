@@ -12,9 +12,19 @@ const quick = [
   "Security Scan",
 ];
 
+const thinkingSteps = [
+  "Reading infrastructure...",
+  "Contacting Guardian...",
+  "Collecting provider status...",
+  "Running reasoning engine...",
+  "Building execution plan...",
+  "Calculating impact...",
+];
+
 export default function MissionConsole() {
   const [mission, setMission] = useState("");
   const [loading, setLoading] = useState(false);
+  const [timeline, setTimeline] = useState<string[]>([]);
   const [result, setResult] = useState<ExecuteResponse | null>(null);
 
   async function executeMission() {
@@ -22,6 +32,12 @@ export default function MissionConsole() {
 
     setLoading(true);
     setResult(null);
+    setTimeline([]);
+
+    for (const step of thinkingSteps) {
+      setTimeline((prev) => [...prev, step]);
+      await new Promise((r) => setTimeout(r, 450));
+    }
 
     try {
       const res = await askCopilot(mission, "dashboard");
@@ -83,11 +99,25 @@ export default function MissionConsole() {
       </div>
 
       {loading && (
-        <div className="mt-6 rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5 text-sm text-slate-300 animate-pulse">
-          ✓ Building context<br />
-          ✓ Running reasoning engine<br />
-          ✓ Building execution plan<br />
-          ✓ Preparing mission report
+        <div className="mt-6 rounded-2xl border border-cyan-400/20 bg-slate-950/70 p-6">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="h-3 w-3 rounded-full bg-cyan-400 animate-pulse" />
+            <div className="text-cyan-300 font-bold">
+              Hermes AI is thinking...
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            {timeline.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-3 text-sm text-slate-300"
+              >
+                <div className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -101,7 +131,8 @@ export default function MissionConsole() {
               {result.reasoning.explanation}
             </div>
             <div className="mt-4 text-xs text-slate-500">
-              Score {result.reasoning.score}% → estimated {result.reasoning.estimated_score}%
+              Score {result.reasoning.score}% → estimated{" "}
+              {result.reasoning.estimated_score}%
             </div>
           </div>
 
@@ -125,6 +156,7 @@ export default function MissionConsole() {
             <div className="flex items-center gap-2 text-amber-300 font-bold mb-3">
               <ShieldAlert size={18} /> Mission Status
             </div>
+
             <div className="text-sm text-slate-300 leading-6">
               {result.answer}
             </div>
