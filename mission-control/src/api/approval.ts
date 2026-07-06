@@ -2,7 +2,7 @@ import { api } from "./client";
 
 export interface ApprovalResponse {
   status: string;
-  message: string;
+  message?: string;
   mission: string;
 
   events: {
@@ -28,11 +28,12 @@ export interface ApprovalResponse {
 
 export async function approveMission(
   mission: string,
-  approved = true
+  plan: any
 ): Promise<ApprovalResponse> {
   const res = await api.post("/missions/approve", {
     mission,
-    approved,
+    approved: true,
+    plan,
   });
 
   return res.data.data;

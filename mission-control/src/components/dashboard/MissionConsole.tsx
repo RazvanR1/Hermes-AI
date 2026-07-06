@@ -80,7 +80,7 @@ export default function MissionConsole() {
     setLoading(true);
 
     try {
-      const res = await approveMission(result.mission);
+      const res = await approveMission(result.mission, result.plan);
       setExecution(res.executed);
 
       setTimeline((prev) => [
