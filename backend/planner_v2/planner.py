@@ -1,4 +1,6 @@
+import re
 from inventory.inventory import inventory
+
 
 def build_goal(goal: str):
     inv = inventory.collect()
@@ -10,49 +12,103 @@ def build_goal(goal: str):
         }
 
     summary = inv["inventory"]["summary"]
-
+    goal_lower = goal.lower()
     plan = []
 
-    goal_lower = goal.lower()
+    vm_match = re.search(r"(vm|ct|lxc)\s*#?\s*(\d+)", goal_lower)
+    vmid = int(vm_match.group(2)) if vm_match else None
 
-    if "update proxmox" in goal_lower or "actualizează proxmox" in goal_lower:
+    if vmid and any(x in goal_lower for x in ["restart", "reboot", "repornește", "reporneste"]):
+        plan = [
+            {
+                "step": 1,
+                "title": f"Reboot VM {vmid}",
+                "tool": "proxmox_action",
+                "action": "reboot",
+                "params": {
+                    "node": "proxmox",
+                    "vmid": vmid
+                }
+            }
+        ]
+
+    elif vmid and any(x in goal_lower for x in ["shutdown", "oprește", "opreste"]):
+        plan = [
+            {
+                "step": 1,
+                "title": f"Shutdown VM {vmid}",
+                "tool": "proxmox_action",
+                "action": "shutdown",
+                "params": {
+                    "node": "proxmox",
+                    "vmid": vmid
+                }
+            }
+        ]
+
+    elif vmid and "start" in goal_lower:
+        plan = [
+            {
+                "step": 1,
+                "title": f"Start VM {vmid}",
+                "tool": "proxmox_action",
+                "action": "start",
+                "params": {
+                    "node": "proxmox",
+                    "vmid": vmid
+                }
+            }
+        ]
+
+    elif "update proxmox" in goal_lower or "actualizează proxmox" in goal_lower:
         plan = [
             {
                 "step": 1,
                 "title": "Verify infrastructure health",
-                "action": "shell.hostname"
+                "tool": "shell",
+                "action": "hostname",
+                "params": {}
             },
             {
                 "step": 2,
                 "title": "Verify available memory",
-                "action": "shell.memory"
+                "tool": "shell",
+                "action": "memory",
+                "params": {}
             },
             {
                 "step": 3,
                 "title": "Verify storage",
-                "action": "shell.disk"
+                "tool": "shell",
+                "action": "disk",
+                "params": {}
             },
             {
                 "step": 4,
                 "title": "Check Proxmox node",
-                "action": "proxmox.nodes"
+                "tool": "proxmox",
+                "action": "nodes",
+                "params": {}
             }
         ]
 
-    elif "restart" in goal_lower:
+    else:
         plan = [
             {
                 "step": 1,
-                "title": "Verify infrastructure",
-                "action": "proxmox.nodes"
+                "title": "Check infrastructure",
+                "tool": "proxmox",
+                "action": "nodes",
+                "params": {}
             }
         ]
 
     return {
         "ok": True,
+        "version": "1.0",
         "goal": goal,
         "inventory": summary,
-        "estimated_duration": len(plan) * 2,
+        "estimated_duration": max(len(plan) * 2, 1),
         "risk": "LOW",
         "steps": plan
     }
