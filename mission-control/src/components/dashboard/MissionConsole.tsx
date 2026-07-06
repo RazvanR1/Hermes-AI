@@ -27,6 +27,7 @@ export default function MissionConsole() {
   const [mission, setMission] = useState("");
   const [loading, setLoading] = useState(false);
   const [timeline, setTimeline] = useState<string[]>([]);
+  const [execution, setExecution] = useState<any>(null);
   const [result, setResult] = useState<MissionResponse | null>(null);
   const { updateAgent, resetAgents } = useAgentStore();
 
@@ -138,6 +139,8 @@ export default function MissionConsole() {
     try {
       const res = await approveMission(result.mission);
 
+      setExecution(res.executed);
+
       setTimeline(prev => [
         ...prev,
         ...res.events.map(e => `${e.agent}: ${e.status}`)
@@ -246,6 +249,51 @@ export default function MissionConsole() {
   </button>
 )
 }
+
+
+
+{execution && (
+<div className="mt-6 rounded-xl border border-cyan-400/20 bg-slate-900/60 p-4">
+
+<div className="text-lg font-bold mb-4">
+Execution Report
+</div>
+
+<div className="space-y-3">
+
+{execution.steps.map((s:any)=>(
+<div
+key={s.step}
+className="rounded-lg bg-slate-950/60 p-3 border border-slate-800"
+>
+
+<div className="flex justify-between">
+
+<div className="font-semibold">
+{s.title}
+</div>
+
+<div className={s.result.ok?"text-emerald-400":"text-red-400"}>
+{s.result.ok?"OK":"FAILED"}
+</div>
+
+</div>
+
+<div className="text-xs text-slate-400 mt-1">
+{s.tool}.{s.action}
+</div>
+
+<pre className="mt-2 text-xs whitespace-pre-wrap text-slate-300">
+{s.result.output}
+</pre>
+
+</div>
+))}
+
+</div>
+
+</div>
+)}
 
 
 {result && (
