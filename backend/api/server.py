@@ -21,8 +21,8 @@ from api.routes import (
     executor,
     inventory,
     health_live,
-    planner_v2,
     missionlog,
+    planner_v2,
 )
 
 app = FastAPI(title="Hermes API", version="1.0")
@@ -35,7 +35,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Legacy routes
 app.include_router(health.router)
 app.include_router(brain.router)
 app.include_router(tasks.router)
@@ -55,8 +54,9 @@ app.include_router(tool_dispatcher.router)
 app.include_router(executor.router)
 app.include_router(inventory.router)
 app.include_router(health_live.router)
+app.include_router(missionlog.router)
+app.include_router(planner_v2.router)
 
-# API v1 routes
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(brain.router, prefix="/api/v1")
 app.include_router(tasks.router, prefix="/api/v1")
@@ -76,9 +76,5 @@ app.include_router(tool_dispatcher.router, prefix="/api/v1")
 app.include_router(executor.router, prefix="/api/v1")
 app.include_router(inventory.router, prefix="/api/v1")
 app.include_router(health_live.router, prefix="/api/v1")
-
-app.include_router(missionlog.router)
 app.include_router(missionlog.router, prefix="/api/v1")
-
-app.include_router(planner_v2.router)
 app.include_router(planner_v2.router, prefix="/api/v1")
