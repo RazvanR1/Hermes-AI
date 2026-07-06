@@ -21,6 +21,7 @@ from api.routes import (
     executor,
     inventory,
     health_live,
+    planner_v2,
     missionlog,
 )
 
@@ -78,3 +79,6 @@ app.include_router(health_live.router, prefix="/api/v1")
 
 app.include_router(missionlog.router)
 app.include_router(missionlog.router, prefix="/api/v1")
+
+app.include_router(planner_v2.router)
+app.include_router(planner_v2.router, prefix="/api/v1")
