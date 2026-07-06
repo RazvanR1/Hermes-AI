@@ -1,45 +1,38 @@
 import { api } from "./client";
 
-export interface MissionResponse {
-  mode: string;
-  mission: string;
-  status: string;
-  risk: string;
-  approval_required: boolean;
-
-  plan: {
-    estimated_duration: number;
-    steps: {
-      step: number;
-      title: string;
-      status: string;
-      action: string;
-    }[];
-  };
-
-  reasoning: any;
-
-  steps: {
-    agent: string;
-    status: string;
-    message: string;
-    confidence: number;
-    output?: any;
-  }[];
-
-  report: {
-    summary: string;
-    recommendation: string;
-  };
+export interface PlanStep {
+  step: number;
+  title: string;
+  action: string;
 }
 
-export async function runMission(
-  mission: string,
-  session = "dashboard"
-): Promise<MissionResponse> {
+export interface MissionPlan {
+  ok: boolean;
+  goal: string;
+  inventory: {
+    nodes: number;
+    vms: number;
+    lxc: number;
+    running: number;
+    stopped: number;
+  };
+  estimated_duration: number;
+  risk: string;
+  steps: PlanStep[];
+}
+
+export interface MissionResponse {
+  mission: string;
+  planner: string;
+  approval_required: boolean;
+  status: string;
+  plan: MissionPlan;
+}
+
+export async function runMission(mission: string): Promise<MissionResponse> {
   const res = await api.post("/missions/run", {
     mission,
-    session_id: session,
+    session_id: "dashboard",
   });
 
   return res.data.data;

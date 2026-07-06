@@ -36,8 +36,8 @@ export default function MissionConsole() {
 
     setLoading(true);
     setResult(null);
+    setExecution(null);
     setTimeline([]);
-
     resetAgents();
 
     updateAgent("Guardian", {
@@ -49,49 +49,7 @@ export default function MissionConsole() {
 
     for (const step of thinkingSteps) {
       setTimeline((prev) => [...prev, step]);
-
-      if (step.includes("Guardian") || step.includes("infrastructure")) {
-        updateAgent("Guardian", {
-          status: "running",
-          task: step,
-          progress: 55,
-          tone: "success",
-        });
-      }
-
-      if (step.includes("reasoning")) {
-        updateAgent("Guardian", {
-          task: "Infrastructure scanned",
-          progress: 100,
-        });
-
-        updateAgent("Reasoner", {
-          status: "running",
-          task: "Calculating risks...",
-          progress: 70,
-          tone: "purple",
-        });
-      }
-
-      if (step.includes("execution plan")) {
-        updateAgent("Planner", {
-          status: "running",
-          task: "Building execution plan...",
-          progress: 75,
-          tone: "primary",
-        });
-      }
-
-      if (step.includes("impact")) {
-        updateAgent("Research", {
-          status: "running",
-          task: "Calculating impact...",
-          progress: 80,
-          tone: "warning",
-        });
-      }
-
-      await new Promise((r) => setTimeout(r, 450));
+      await new Promise((r) => setTimeout(r, 350));
     }
 
     try {
@@ -100,23 +58,9 @@ export default function MissionConsole() {
 
       updateAgent("Planner", {
         status: "ready",
-        task: "Execution plan ready",
+        task: "Plan created with live inventory",
         progress: 100,
         tone: "primary",
-      });
-
-      updateAgent("Reasoner", {
-        status: "ready",
-        task: "Risk analysis complete",
-        progress: 100,
-        tone: "purple",
-      });
-
-      updateAgent("Research", {
-        status: "ready",
-        task: "Impact analysis complete",
-        progress: 100,
-        tone: "warning",
       });
 
       updateAgent("Executor", {
@@ -130,7 +74,6 @@ export default function MissionConsole() {
     }
   }
 
-
   async function approve() {
     if (!result) return;
 
@@ -138,12 +81,11 @@ export default function MissionConsole() {
 
     try {
       const res = await approveMission(result.mission);
-
       setExecution(res.executed);
 
-      setTimeline(prev => [
+      setTimeline((prev) => [
         ...prev,
-        ...res.events.map(e => `${e.agent}: ${e.status}`)
+        ...res.events.map((e) => `${e.agent}: ${e.status}`),
       ]);
 
       updateAgent("Executor", {
@@ -152,18 +94,10 @@ export default function MissionConsole() {
         progress: 100,
         tone: "success",
       });
-
-      updateAgent("Guardian", {
-        status: "running",
-        task: "Verifying services...",
-        progress: 100,
-        tone: "success",
-      });
     } finally {
       setLoading(false);
     }
   }
-
 
   return (
     <GlassPanel className="p-6">
@@ -187,22 +121,16 @@ export default function MissionConsole() {
         className="w-full h-32 rounded-2xl bg-slate-950/60 border border-cyan-400/10 p-5 outline-none resize-none text-white focus:border-cyan-400/40"
       />
 
-      <div className="mt-5">
-        <div className="text-xs uppercase tracking-[0.3em] text-slate-500 mb-3">
-          Quick Missions
-        </div>
-
-        <div className="flex flex-wrap gap-3">
-          {quick.map((q) => (
-            <button
-              key={q}
-              onClick={() => setMission(q)}
-              className="rounded-full border border-cyan-400/15 bg-cyan-400/5 hover:bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300 transition"
-            >
-              {q}
-            </button>
-          ))}
-        </div>
+      <div className="mt-5 flex flex-wrap gap-3">
+        {quick.map((q) => (
+          <button
+            key={q}
+            onClick={() => setMission(q)}
+            className="rounded-full border border-cyan-400/15 bg-cyan-400/5 hover:bg-cyan-400/10 px-4 py-2 text-sm text-cyan-300 transition"
+          >
+            {q}
+          </button>
+        ))}
       </div>
 
       <div className="mt-6 flex justify-end">
@@ -218,20 +146,14 @@ export default function MissionConsole() {
 
       {loading && (
         <div className="mt-6 rounded-2xl border border-cyan-400/20 bg-slate-950/70 p-6">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="h-3 w-3 rounded-full bg-cyan-400 animate-pulse" />
-            <div className="text-cyan-300 font-bold">
-              Hermes AI is thinking...
-            </div>
+          <div className="text-cyan-300 font-bold mb-4">
+            Hermes AI is thinking...
           </div>
 
           <div className="space-y-3">
             {timeline.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 text-sm text-slate-300"
-              >
-                <div className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+              <div key={index} className="flex items-center gap-3 text-sm text-slate-300">
+                <div className="h-2 w-2 rounded-full bg-cyan-400" />
                 {item}
               </div>
             ))}
@@ -239,101 +161,104 @@ export default function MissionConsole() {
         </div>
       )}
 
-      
-{result?.approval_required && (
-  <button
-    onClick={approve}
-    className="mt-6 w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3 font-bold text-slate-950 transition"
-  >
-    ✅ Approve Mission
-  </button>
-)
-}
+      {execution && (
+        <div className="mt-6 rounded-xl border border-cyan-400/20 bg-slate-900/60 p-4">
+          <div className="text-lg font-bold mb-4">Execution Report</div>
 
-
-
-{execution && (
-<div className="mt-6 rounded-xl border border-cyan-400/20 bg-slate-900/60 p-4">
-
-<div className="text-lg font-bold mb-4">
-Execution Report
-</div>
-
-<div className="space-y-3">
-
-{execution.steps.map((s:any)=>(
-<div
-key={s.step}
-className="rounded-lg bg-slate-950/60 p-3 border border-slate-800"
->
-
-<div className="flex justify-between">
-
-<div className="font-semibold">
-{s.title}
-</div>
-
-<div className={s.result.ok?"text-emerald-400":"text-red-400"}>
-{s.result.ok?"OK":"FAILED"}
-</div>
-
-</div>
-
-<div className="text-xs text-slate-400 mt-1">
-{s.tool}.{s.action}
-</div>
-
-<pre className="mt-2 text-xs whitespace-pre-wrap text-slate-300">
-{s.result.output}
-</pre>
-
-</div>
-))}
-
-</div>
-
-</div>
-)}
-
-
-{result && (
-        <div className="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-4">
-          <div className="rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5">
-            <div className="flex items-center gap-2 text-cyan-300 font-bold mb-3">
-              <Brain size={18} /> Reasoning
-            </div>
-            <div className="text-sm text-slate-300 leading-6">
-              {result.reasoning.explanation}
-            </div>
-            <div className="mt-4 text-xs text-slate-500">
-              Score {result.reasoning.score}% → estimated{" "}
-              {result.reasoning.estimated_score}%
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5">
-            <div className="flex items-center gap-2 text-cyan-300 font-bold mb-3">
-              <ClipboardList size={18} /> Execution Plan
-            </div>
-            <div className="space-y-2">
-              {result.plan.steps.map((s) => (
-                <div key={s.step} className="text-sm text-slate-300">
-                  <span className="text-cyan-400">{s.step}.</span> {s.title}
+          <div className="space-y-3">
+            {execution.steps.map((s: any) => (
+              <div key={s.step} className="rounded-lg bg-slate-950/60 p-3 border border-slate-800">
+                <div className="flex justify-between">
+                  <div className="font-semibold">{s.title}</div>
+                  <div className={s.result?.ok ? "text-emerald-400" : "text-red-400"}>
+                    {s.result?.ok ? "OK" : "FAILED"}
+                  </div>
                 </div>
-              ))}
+
+                <div className="text-xs text-slate-400 mt-1">
+                  {s.tool}.{s.action}
+                </div>
+
+                <pre className="mt-2 text-xs whitespace-pre-wrap text-slate-300">
+                  {s.result?.output}
+                </pre>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {result && (
+        <div className="mt-6">
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="rounded-xl bg-slate-900/60 p-3">
+              <div className="text-xs text-slate-400">Risk</div>
+              <div className="text-lg font-bold text-amber-300">
+                {result.plan.risk}
+              </div>
             </div>
-            <div className="mt-4 text-xs text-slate-500">
-              ETA {result.plan.estimated_duration} min
+
+            <div className="rounded-xl bg-slate-900/60 p-3">
+              <div className="text-xs text-slate-400">Duration</div>
+              <div className="text-lg font-bold">
+                {result.plan.estimated_duration} min
+              </div>
+            </div>
+
+            <div className="rounded-xl bg-slate-900/60 p-3">
+              <div className="text-xs text-slate-400">Planner</div>
+              <div className="text-lg font-bold text-cyan-300">
+                {result.planner}
+              </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-amber-400/10 bg-amber-400/5 p-5">
-            <div className="flex items-center gap-2 text-amber-300 font-bold mb-3">
-              <ShieldAlert size={18} /> Mission Status
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+            <div className="rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5">
+              <div className="flex items-center gap-2 text-cyan-300 font-bold mb-3">
+                <Brain size={18} /> Inventory Context
+              </div>
+              <div className="text-sm text-slate-300 leading-6">
+                Nodes: {result.plan.inventory.nodes}<br />
+                VMs: {result.plan.inventory.vms}<br />
+                LXC: {result.plan.inventory.lxc}<br />
+                Running: {result.plan.inventory.running}<br />
+                Stopped: {result.plan.inventory.stopped}
+              </div>
             </div>
 
-            <div className="text-sm text-slate-300 leading-6">
-              {result.report.recommendation}
+            <div className="rounded-2xl border border-cyan-400/10 bg-slate-950/60 p-5">
+              <div className="flex items-center gap-2 text-cyan-300 font-bold mb-3">
+                <ClipboardList size={18} /> Execution Plan
+              </div>
+
+              <div className="space-y-2">
+                {result.plan.steps.map((s) => (
+                  <div key={s.step} className="text-sm text-slate-300">
+                    <span className="text-cyan-400">{s.step}.</span> {s.title}
+                    <div className="text-xs text-slate-500">{s.action}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-amber-400/10 bg-amber-400/5 p-5">
+              <div className="flex items-center gap-2 text-amber-300 font-bold mb-3">
+                <ShieldAlert size={18} /> Mission Status
+              </div>
+
+              <div className="text-sm text-slate-300 leading-6">
+                Status: {result.status}
+              </div>
+
+              {result.approval_required && (
+                <button
+                  onClick={approve}
+                  className="mt-6 w-full rounded-xl bg-emerald-500 hover:bg-emerald-400 py-3 font-bold text-slate-950 transition"
+                >
+                  ✅ Approve Mission
+                </button>
+              )}
             </div>
           </div>
         </div>
