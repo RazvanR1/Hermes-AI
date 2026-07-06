@@ -2,6 +2,7 @@ from typing import Dict, Any, List
 
 from tools.dispatcher import execute as tool_execute
 from missionlog.log import push
+from agents.proxmox.tasks import wait_for_task
 
 
 def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
@@ -13,10 +14,8 @@ def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
         action = step.get("action")
         params = step.get("params", {})
 
-        if not tool or not action:
-            raw_action = step.get("action", "")
-            if "." in raw_action:
-                tool, action = raw_action.split(".", 1)
+        if (not tool or not action) and "." in step.get("action", ""):
+            tool, action = step["action"].split(".", 1)
 
         push("Executor", f"Running: {title}", "running")
 
@@ -33,6 +32,30 @@ def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
 
         result = tool_execute(tool, action, **params)
 
+        if (
+            tool == "proxmox_action"
+            and result.get("ok")
+            and isinstance(result.get("data"), str)
+            and result["data"].startswith("UPID:")
+        ):
+            push("Guardian", "Waiting for Proxmox task...", "running")
+
+            task = wait_for_task(
+                params.get("node"),
+                result["data"],
+            )
+
+            result["task"] = task
+
+            if task.get("ok"):
+                push("Guardian", "Task completed successfully", "success")
+            else:
+                push(
+                    "Guardian",
+                    f"Task failed: {task.get('error', task.get('status'))}",
+                    "error",
+                )
+
         results.append({
             "step": step.get("step"),
             "title": title,
@@ -42,14 +65,14 @@ def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
             "result": result,
         })
 
-        if result.get("ok", False):
+        if result.get("ok"):
             push("Executor", f"Completed: {title}", "success")
         else:
             push("Executor", f"Failed: {title}", "error")
             break
 
     success = all(
-        r.get("result", r).get("ok", False)
+        r.get("result", {}).get("ok", False)
         for r in results
     )
 
