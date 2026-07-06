@@ -1,6 +1,28 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import health, brain, tasks, dashboard, copilot, copilot_actions, context, reasoning, planner, copilot_execute, agents, missions, approval, tools, docker_tools, tool_dispatcher, executor, inventory, health_live health, brain, tasks, dashboard, copilot, copilot_actions, context, reasoning, planner, copilot_execute, agents, missions, approval, tools, docker_tools, tool_dispatcher, executor, inventory
+
+from api.routes import (
+    health,
+    brain,
+    tasks,
+    dashboard,
+    copilot,
+    copilot_actions,
+    context,
+    reasoning,
+    planner,
+    copilot_execute,
+    agents,
+    missions,
+    approval,
+    tools,
+    docker_tools,
+    tool_dispatcher,
+    executor,
+    inventory,
+    health_live,
+    missionlog,
+)
 
 app = FastAPI(title="Hermes API", version="1.0")
 
@@ -31,6 +53,7 @@ app.include_router(docker_tools.router)
 app.include_router(tool_dispatcher.router)
 app.include_router(executor.router)
 app.include_router(inventory.router)
+app.include_router(health_live.router)
 
 # API v1 routes
 app.include_router(health.router, prefix="/api/v1")
@@ -51,5 +74,7 @@ app.include_router(docker_tools.router, prefix="/api/v1")
 app.include_router(tool_dispatcher.router, prefix="/api/v1")
 app.include_router(executor.router, prefix="/api/v1")
 app.include_router(inventory.router, prefix="/api/v1")
-
 app.include_router(health_live.router, prefix="/api/v1")
+
+app.include_router(missionlog.router)
+app.include_router(missionlog.router, prefix="/api/v1")

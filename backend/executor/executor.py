@@ -1,15 +1,20 @@
 from typing import Dict, Any, List
 from tools.dispatcher import execute as tool_execute
+from missionlog.log import push
 
 def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
     results: List[Dict[str, Any]] = []
 
     for step in plan.get("steps", []):
 
+        push("Executor", f"Running: {step.get('title')}", "running")
+
         action = step.get("action", "")
 
         if "." not in action:
-            results.append({
+            push("Executor", f"Completed: {step.get('title')}", "success")
+
+        results.append({
                 "step": step.get("step"),
                 "title": step.get("title"),
                 "ok": False,
