@@ -8,6 +8,7 @@ import SystemPulse from "../components/dashboard/SystemPulse";
 import HeroStats from "../components/dashboard/HeroStats";
 import InfrastructureMap from "../components/infrastructure/InfrastructureMap";
 import ProviderGrid from "../components/providers/ProviderGrid";
+import MissionLog from "../components/dashboard/MissionLog";
 
 
 export default function DashboardV2() {
@@ -17,7 +18,9 @@ export default function DashboardV2() {
     return (
       <PageContainer>
         <div className="text-slate-400">Loading Hermes...</div>
-      </PageContainer>
+      
+<MissionLog />
+</PageContainer>
     );
   }
 
@@ -25,7 +28,9 @@ export default function DashboardV2() {
     return (
       <PageContainer>
         <div className="text-red-400">Failed to load Hermes.</div>
-      </PageContainer>
+      
+<MissionLog />
+</PageContainer>
     );
   }
 
@@ -141,6 +146,8 @@ export default function DashboardV2() {
         </div>
 
       </div>
-    </PageContainer>
+    
+<MissionLog />
+</PageContainer>
   );
 }
