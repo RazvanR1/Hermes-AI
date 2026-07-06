@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+
 from api.response import ok
-from core import mission_engine
+from core.mission_engine import mission_engine
 
 router = APIRouter()
 
@@ -12,6 +13,6 @@ class MissionRequest(BaseModel):
 @router.post("/missions/run")
 def run_mission(req: MissionRequest):
     return ok(
-        mission_engine.run(req.mission, req.session_id),
+        mission_engine.execute(req.mission),
         mode="mission_v1",
     )
