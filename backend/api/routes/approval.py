@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from api.response import ok
 from executor.executor import execute_plan
+from history.history import add as add_history
 
 router = APIRouter()
 
@@ -26,7 +27,14 @@ def approve(req: ApprovalRequest):
 
     executed = execute_plan(req.plan)
 
+    history_item = add_history(
+        req.mission,
+        "completed" if executed.get("ok") else "failed",
+        executed,
+    )
+
     return ok({
+        "history": history_item,
         "status": "completed" if executed.get("ok") else "failed",
         "mission": req.mission,
         "executed": executed,

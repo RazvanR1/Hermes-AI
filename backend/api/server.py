@@ -23,6 +23,7 @@ from api.routes import (
     health_live,
     missionlog,
     planner_v2,
+    history,
 )
 
 app = FastAPI(title="Hermes API", version="1.0")
@@ -78,3 +79,6 @@ app.include_router(inventory.router, prefix="/api/v1")
 app.include_router(health_live.router, prefix="/api/v1")
 app.include_router(missionlog.router, prefix="/api/v1")
 app.include_router(planner_v2.router, prefix="/api/v1")
+
+app.include_router(history.router)
+app.include_router(history.router, prefix="/api/v1")
