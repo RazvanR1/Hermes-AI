@@ -1,3 +1,4 @@
+from api import security
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -57,6 +58,7 @@ app.include_router(inventory.router)
 app.include_router(health_live.router)
 app.include_router(missionlog.router)
 app.include_router(planner_v2.router)
+app.include_router(security.router)
 
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(brain.router, prefix="/api/v1")
@@ -79,6 +81,7 @@ app.include_router(inventory.router, prefix="/api/v1")
 app.include_router(health_live.router, prefix="/api/v1")
 app.include_router(missionlog.router, prefix="/api/v1")
 app.include_router(planner_v2.router, prefix="/api/v1")
+app.include_router(security.router, prefix="/api/v1")
 
 app.include_router(history.router)
 app.include_router(history.router, prefix="/api/v1")

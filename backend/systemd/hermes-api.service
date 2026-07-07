@@ -3,6 +3,8 @@ Description=Hermes API
 After=network.target hermes-guardian.service
 
 [Service]
+Environment=OLLAMA_MODEL=qwen3:8b
+Environment=OLLAMA_URL=http://192.168.1.201:11434
 Type=simple
 User=hermes
 Group=hermes
