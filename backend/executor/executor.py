@@ -47,6 +47,27 @@ def execute_plan(plan: Dict[str, Any]) -> Dict[str, Any]:
 
             result["task"] = task
 
+            if not task.get("ok"):
+                err = (task.get("error", "") or task.get("status", "")).lower()
+
+                if "timeout" in err:
+                    result["recovery"] = {
+                        "title": "Force Reset VM",
+                        "tool": "proxmox_action",
+                        "action": "reset",
+                        "params": params,
+                        "reason": "Graceful reboot timed out.",
+                    }
+
+                elif "lock" in err:
+                    result["recovery"] = {
+                        "title": "Retry Later",
+                        "tool": None,
+                        "action": None,
+                        "params": {},
+                        "reason": "VM is locked.",
+                    }
+
             if task.get("ok"):
                 push("Guardian", "Task completed successfully", "success")
             else:

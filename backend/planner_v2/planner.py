@@ -18,7 +18,21 @@ def build_goal(goal: str):
     vm_match = re.search(r"(vm|ct|lxc)\s*#?\s*(\d+)", goal_lower)
     vmid = int(vm_match.group(2)) if vm_match else None
 
-    if vmid and any(x in goal_lower for x in ["restart", "reboot", "repornește", "reporneste"]):
+    if vmid and any(x in goal_lower for x in ["reset", "force restart", "restart fortat", "restart forțat"]):
+        plan = [
+            {
+                "step": 1,
+                "title": f"Force Reset VM {vmid}",
+                "tool": "proxmox_action",
+                "action": "reset",
+                "params": {
+                    "node": "proxmox",
+                    "vmid": vmid
+                }
+            }
+        ]
+
+    elif vmid and any(x in goal_lower for x in ["restart", "reboot", "repornește", "reporneste"]):
         plan = [
             {
                 "step": 1,
