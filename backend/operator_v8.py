@@ -4,6 +4,7 @@ from typing import Dict, Any, List
 from brain_v8 import detect_intent
 from executor_v8 import build_step, create_mission
 from mission_store_v8 import save_mission
+from mission_events_v8 import mission_created
 
 
 def _extract_target(message: str) -> Dict[str, Any]:
@@ -120,6 +121,7 @@ def operator_chat(message: str, source: str = "api", user: str = "local") -> Dic
     mission = _prepare_status_for_approval(mission)
 
     mission = save_mission(mission)
+    mission_created(mission)
 
     requires_approval = [
         step for step in mission.get("steps", [])
