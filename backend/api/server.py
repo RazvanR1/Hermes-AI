@@ -5,6 +5,7 @@ from api import approval_v8
 from api import execution_v8
 from api import operator_v8
 from api import events_v8
+from api import telegram_v8
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -71,6 +72,7 @@ app.include_router(approval_v8.router)
 app.include_router(execution_v8.router)
 app.include_router(operator_v8.router)
 app.include_router(events_v8.router)
+app.include_router(telegram_v8.router)
 
 app.include_router(health.router, prefix="/api/v1")
 app.include_router(brain.router, prefix="/api/v1")
@@ -100,6 +102,7 @@ app.include_router(approval_v8.router, prefix="/api/v1")
 app.include_router(execution_v8.router, prefix="/api/v1")
 app.include_router(operator_v8.router, prefix="/api/v1")
 app.include_router(events_v8.router, prefix="/api/v1")
+app.include_router(telegram_v8.router, prefix="/api/v1")
 
 app.include_router(history.router)
 app.include_router(history.router, prefix="/api/v1")
