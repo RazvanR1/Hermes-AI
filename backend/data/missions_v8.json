@@ -1,0 +1,743 @@
+[
+  {
+    "ok": true,
+    "mission_id": "b69db613-d702-4ddf-9303-1930df15d9de",
+    "created_at": "2026-07-08T08:03:40.302187+00:00",
+    "goal": "repornește VM 111",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "waiting_confirmation",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 111",
+          "action": "proxmox.vm.reboot",
+          "params": {
+            "node": "proxmox",
+            "vmid": 111
+          },
+          "risk": "CONFIRM",
+          "status": "waiting_confirmation",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.reboot pentru VM 111",
+        "action": "proxmox.vm.reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 111
+        },
+        "risk": "CONFIRM",
+        "status": "waiting_confirmation",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "verify",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-08T08:03:40.302430+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "6c174771-b6be-44a4-9389-4c8dbe4f19d7",
+    "created_at": "2026-07-08T08:03:38.123913+00:00",
+    "goal": "repornește VM 111",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "waiting_confirmation",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 111",
+          "action": "proxmox.vm.reboot",
+          "params": {
+            "node": "proxmox",
+            "vmid": 111
+          },
+          "risk": "CONFIRM",
+          "status": "waiting_confirmation",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.reboot pentru VM 111",
+        "action": "proxmox.vm.reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 111
+        },
+        "risk": "CONFIRM",
+        "status": "waiting_confirmation",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "install-test",
+    "requested_by": "installer",
+    "updated_at": "2026-07-08T08:03:38.124121+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "ae76ddef-24fb-4593-b13e-d45b5afb6673",
+    "created_at": "2026-07-08T07:58:21.226061+00:00",
+    "goal": "repornește VM 111",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "planned",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.start pentru VM 111",
+          "action": "proxmox.vm.start",
+          "params": {
+            "node": "proxmox",
+            "vmid": 111
+          },
+          "risk": "CONFIRM",
+          "status": "planned",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.start pentru VM 111",
+        "action": "proxmox.vm.start",
+        "params": {
+          "node": "proxmox",
+          "vmid": 111
+        },
+        "risk": "CONFIRM",
+        "status": "planned",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "verify",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-08T07:58:21.226223+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "bcbad236-15f9-44a4-80e0-48afc0501d68",
+    "created_at": "2026-07-08T07:58:21.209630+00:00",
+    "goal": "status VM 111",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "planned",
+    "evaluation": {
+      "overall_risk": "SAFE",
+      "safe_count": 1,
+      "confirm_count": 0,
+      "blocked_count": 0,
+      "safe": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.status pentru VM 111",
+          "action": "proxmox.vm.status",
+          "params": {
+            "node": "proxmox",
+            "vmid": 111
+          },
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        }
+      ],
+      "requires_confirmation": [],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.status pentru VM 111",
+        "action": "proxmox.vm.status",
+        "params": {
+          "node": "proxmox",
+          "vmid": 111
+        },
+        "risk": "SAFE",
+        "status": "planned",
+        "requires_confirmation": false,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "verify",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-08T07:58:21.209841+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "b30e6b79-30ab-4ae9-b1f8-dde096e6f048",
+    "created_at": "2026-07-08T07:58:19.001187+00:00",
+    "goal": "status VM 111",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "planned",
+    "evaluation": {
+      "overall_risk": "SAFE",
+      "safe_count": 1,
+      "confirm_count": 0,
+      "blocked_count": 0,
+      "safe": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.status pentru VM 111",
+          "action": "proxmox.vm.status",
+          "params": {
+            "node": "proxmox",
+            "vmid": 111
+          },
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        }
+      ],
+      "requires_confirmation": [],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.status pentru VM 111",
+        "action": "proxmox.vm.status",
+        "params": {
+          "node": "proxmox",
+          "vmid": 111
+        },
+        "risk": "SAFE",
+        "status": "planned",
+        "requires_confirmation": false,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "install-test",
+    "requested_by": "installer",
+    "updated_at": "2026-07-08T07:58:19.001715+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "48ce1f06-d0cc-4ace-b489-e4e595a1338d",
+    "created_at": "2026-07-08T06:24:33.966476+00:00",
+    "goal": "Hermes, securizează serverul",
+    "intent": {
+      "intent": "security.plan",
+      "skill": "security",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de securitate."
+    },
+    "status": "planned",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 2,
+      "confirm_count": 2,
+      "blocked_count": 0,
+      "safe": [
+        {
+          "id": "security-audit",
+          "title": "Rulează audit de securitate",
+          "action": "security.audit",
+          "params": {},
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        },
+        {
+          "id": "security-plan",
+          "title": "Generează plan de securizare",
+          "action": "security.plan",
+          "params": {},
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        }
+      ],
+      "requires_confirmation": [
+        {
+          "id": "security-updates",
+          "title": "Aplică update-uri de securitate",
+          "action": "security.apply_updates",
+          "params": {},
+          "risk": "CONFIRM",
+          "status": "planned",
+          "requires_confirmation": true,
+          "blocked": false
+        },
+        {
+          "id": "security-ssh",
+          "title": "Întărește configurația SSH",
+          "action": "security.fix_ssh",
+          "params": {},
+          "risk": "CONFIRM",
+          "status": "planned",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "security-audit",
+        "title": "Rulează audit de securitate",
+        "action": "security.audit",
+        "params": {},
+        "risk": "SAFE",
+        "status": "planned",
+        "requires_confirmation": false,
+        "blocked": false
+      },
+      {
+        "id": "security-plan",
+        "title": "Generează plan de securizare",
+        "action": "security.plan",
+        "params": {},
+        "risk": "SAFE",
+        "status": "planned",
+        "requires_confirmation": false,
+        "blocked": false
+      },
+      {
+        "id": "security-updates",
+        "title": "Aplică update-uri de securitate",
+        "action": "security.apply_updates",
+        "params": {},
+        "risk": "CONFIRM",
+        "status": "planned",
+        "requires_confirmation": true,
+        "blocked": false
+      },
+      {
+        "id": "security-ssh",
+        "title": "Întărește configurația SSH",
+        "action": "security.fix_ssh",
+        "params": {},
+        "risk": "CONFIRM",
+        "status": "planned",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "updated_at": "2026-07-08T06:24:33.966925+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "5f1c94d0-b896-4780-bf5d-b5e43bcae042",
+    "created_at": "2026-07-07T19:12:39.926142+00:00",
+    "goal": "Hermes, securizează serverul",
+    "intent": {
+      "intent": "security.plan",
+      "skill": "security",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de securitate."
+    },
+    "status": "waiting_confirmation",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 2,
+      "confirm_count": 2,
+      "blocked_count": 0,
+      "safe": [
+        {
+          "id": "security-audit",
+          "title": "Rulează audit de securitate",
+          "action": "security.audit",
+          "params": {},
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        },
+        {
+          "id": "security-plan",
+          "title": "Generează plan de securizare",
+          "action": "security.plan",
+          "params": {},
+          "risk": "SAFE",
+          "status": "planned",
+          "requires_confirmation": false,
+          "blocked": false
+        }
+      ],
+      "requires_confirmation": [
+        {
+          "id": "security-updates",
+          "title": "Aplică update-uri de securitate",
+          "action": "security.apply_updates",
+          "params": {},
+          "risk": "CONFIRM",
+          "status": "planned",
+          "requires_confirmation": true,
+          "blocked": false
+        },
+        {
+          "id": "security-ssh",
+          "title": "Întărește configurația SSH",
+          "action": "security.fix_ssh",
+          "params": {},
+          "risk": "CONFIRM",
+          "status": "planned",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "security-audit",
+        "title": "Rulează audit de securitate",
+        "action": "security.audit",
+        "params": {},
+        "risk": "SAFE",
+        "status": "done",
+        "requires_confirmation": false,
+        "blocked": false,
+        "started_at": "2026-07-07T19:14:04.934869+00:00",
+        "result": {
+          "ok": true,
+          "action": "security.audit",
+          "result": {
+            "parsed": {
+              "environment": "lxc",
+              "security_score": 52,
+              "update_count": 2,
+              "findings": [
+                {
+                  "id": "updates_available",
+                  "severity": "medium",
+                  "title": "2 pachete au update disponibil",
+                  "requires_approval": true
+                },
+                {
+                  "id": "hermes_api_public",
+                  "severity": "medium",
+                  "title": "Hermes API ascultă public pe 8088",
+                  "requires_approval": true
+                },
+                {
+                  "id": "ssh_password_possible",
+                  "severity": "high",
+                  "title": "SSH password authentication pare permisă/neclară",
+                  "requires_approval": true
+                },
+                {
+                  "id": "ssh_root_policy_unclear",
+                  "severity": "medium",
+                  "title": "Politica SSH pentru root este neclară",
+                  "requires_approval": true
+                },
+                {
+                  "id": "docker_not_available",
+                  "severity": "info",
+                  "title": "Docker nu este disponibil în acest container",
+                  "requires_approval": false
+                }
+              ]
+            },
+            "audit": {
+              "system_info": {
+                "ok": true,
+                "command": "system_info",
+                "stdout": " Static hostname: hermesagent\n       Icon name: computer-container\n         Chassis: container ☐\n      Machine ID: a49b59a59d18423d9b1a8446a08ab35d\n         Boot ID: 4ee369d2cd574ddfb0e5526ad7718c24\n  Virtualization: lxc\nOperating System: Debian GNU/Linux 13 (trixie)\n          Kernel: Linux 7.0.12-1-pve\n    Architecture: x86-64\n\n 22:14:04 up 7 days, 10:22,  2 users,  load average: 1.69, 2.01, 1.77\n\n               total        used        free      shared  buff/cache   available\nMem:           4.0Gi       161Mi       3.6Gi       3.1Mi       246Mi       3.8Gi\nSwap:          512Mi       312Mi       199Mi\n\nFilesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--202--disk--0   20G  5.4G   14G  30% /\nnone                              492K  4.0K  488K   1% /dev\nudev                               16G     0   16G   0% /dev/tty\ntmpfs                              16G     0   16G   0% /dev/shm\ntmpfs                             6.3G  140K  6.3G   1% /run\ntmpfs                             5.0M     0  5.0M   0% /run/lock\ntmpfs                              16G   15M   16G   1% /tmp\ntmpfs                             3.2G   16K  3.2G   1% /run/user/1000\ntmpfs                             3.2G   12K  3.2G   1% /run/user/0\n",
+                "stderr": "Failed to query product UUID, ignoring: Access denied\nFailed to query hardware serial, ignoring: Access denied\n"
+              },
+              "open_ports": {
+                "ok": true,
+                "command": "open_ports",
+                "stdout": "Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                             \nudp   UNCONN 0      0            0.0.0.0:68        0.0.0.0:*                                       \ntcp   LISTEN 0      100        127.0.0.1:25        0.0.0.0:*                                       \ntcp   LISTEN 0      2048         0.0.0.0:9119      0.0.0.0:*    users:((\"hermes\",pid=22337,fd=13)) \ntcp   LISTEN 0      511          0.0.0.0:5173      0.0.0.0:*                                       \ntcp   LISTEN 0      2048         0.0.0.0:8088      0.0.0.0:*    users:((\"python3\",pid=44207,fd=12))\ntcp   LISTEN 0      100            [::1]:25           [::]:*                                       \ntcp   LISTEN 0      4096               *:22              *:*                                       \n",
+                "stderr": ""
+              },
+              "users": {
+                "ok": true,
+                "command": "users",
+                "stdout": "root:0:/bin/bash\ndaemon:1:/usr/sbin/nologin\nbin:2:/usr/sbin/nologin\nsys:3:/usr/sbin/nologin\nsync:4:/bin/sync\ngames:5:/usr/sbin/nologin\nman:6:/usr/sbin/nologin\nlp:7:/usr/sbin/nologin\nmail:8:/usr/sbin/nologin\nnews:9:/usr/sbin/nologin\nuucp:10:/usr/sbin/nologin\nproxy:13:/usr/sbin/nologin\nwww-data:33:/usr/sbin/nologin\nbackup:34:/usr/sbin/nologin\nlist:38:/usr/sbin/nologin\nirc:39:/usr/sbin/nologin\n_apt:42:/usr/sbin/nologin\nnobody:65534:/usr/sbin/nologin\nsystemd-network:998:/usr/sbin/nologin\ndhcpcd:100:/bin/false\nsshd:991:/usr/sbin/nologin\npostfix:101:/usr/sbin/nologin\nsystemd-timesync:990:/usr/sbin/nologin\nmessagebus:989:/usr/sbin/nologin\nhermes:1000:/bin/bash\n",
+                "stderr": ""
+              },
+              "ssh_audit": {
+                "ok": true,
+                "command": "ssh_audit",
+                "stdout": "#Port 22\n#PermitRootLogin prohibit-password\n#PubkeyAuthentication yes\n#PasswordAuthentication yes\n# PasswordAuthentication.  Depending on your PAM configuration,\n",
+                "stderr": ""
+              },
+              "services": {
+                "ok": true,
+                "command": "services",
+                "stdout": "  UNIT                      LOAD   ACTIVE SUB     DESCRIPTION\n  console-getty.service     loaded active running Console Getty\n  container-getty@1.service loaded active running Container Getty on /dev/tty1\n  container-getty@2.service loaded active running Container Getty on /dev/tty2\n  cron.service              loaded active running Regular background program processing daemon\n  dbus.service              loaded active running D-Bus System Message Bus\n  hermes-api.service        loaded active running Hermes API\n  hermes-dashboard.service  loaded active running Hermes Agent Web Dashboard\n  hermes-guardian.service   loaded active running Hermes Guardian Daemon\n  hermes-ui.service         loaded active running Hermes UI\n  postfix.service           loaded active running Postfix Mail Transport Agent (main/default instance)\n  ssh.service               loaded active running OpenBSD Secure Shell server\n  systemd-hostnamed.service loaded active running Hostname Service\n  systemd-journald.service  loaded active running Journal Service\n  systemd-logind.service    loaded active running User Login Management\n  systemd-networkd.service  loaded active running Network Configuration\n  user@0.service            loaded active running User Manager for UID 0\n  user@1000.service         loaded active running User Manager for UID 1000\n\nLegend: LOAD   → Reflects whether the unit definition was properly loaded.\n        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.\n        SUB    → The low-level unit activation state, values depend on unit type.\n\n17 loaded units listed.\n",
+                "stderr": ""
+              },
+              "updates": {
+                "ok": true,
+                "command": "updates",
+                "stdout": "Listing...\nxserver-common/stable-security 2:21.1.16-1.3+deb13u3 all [upgradable from: 2:21.1.16-1.3+deb13u2]\nxvfb/stable-security 2:21.1.16-1.3+deb13u3 amd64 [upgradable from: 2:21.1.16-1.3+deb13u2]\n",
+                "stderr": ""
+              },
+              "docker_ps": {
+                "ok": true,
+                "command": "docker_ps",
+                "stdout": "Docker not available\n",
+                "stderr": ""
+              }
+            }
+          }
+        },
+        "finished_at": "2026-07-07T19:14:05.187939+00:00"
+      },
+      {
+        "id": "security-plan",
+        "title": "Generează plan de securizare",
+        "action": "security.plan",
+        "params": {},
+        "risk": "SAFE",
+        "status": "done",
+        "requires_confirmation": false,
+        "blocked": false,
+        "started_at": "2026-07-07T19:14:05.187950+00:00",
+        "result": {
+          "ok": true,
+          "action": "security.plan",
+          "result": {
+            "ok": true,
+            "goal": "Hermes, securizează serverul",
+            "parsed": {
+              "environment": "lxc",
+              "security_score": 52,
+              "update_count": 2,
+              "findings": [
+                {
+                  "id": "updates_available",
+                  "severity": "medium",
+                  "title": "2 pachete au update disponibil",
+                  "requires_approval": true
+                },
+                {
+                  "id": "hermes_api_public",
+                  "severity": "medium",
+                  "title": "Hermes API ascultă public pe 8088",
+                  "requires_approval": true
+                },
+                {
+                  "id": "ssh_password_possible",
+                  "severity": "high",
+                  "title": "SSH password authentication pare permisă/neclară",
+                  "requires_approval": true
+                },
+                {
+                  "id": "ssh_root_policy_unclear",
+                  "severity": "medium",
+                  "title": "Politica SSH pentru root este neclară",
+                  "requires_approval": true
+                },
+                {
+                  "id": "docker_not_available",
+                  "severity": "info",
+                  "title": "Docker nu este disponibil în acest container",
+                  "requires_approval": false
+                }
+              ]
+            },
+            "audit": {
+              "system_info": {
+                "ok": true,
+                "command": "system_info",
+                "stdout": " Static hostname: hermesagent\n       Icon name: computer-container\n         Chassis: container ☐\n      Machine ID: a49b59a59d18423d9b1a8446a08ab35d\n         Boot ID: 4ee369d2cd574ddfb0e5526ad7718c24\n  Virtualization: lxc\nOperating System: Debian GNU/Linux 13 (trixie)\n          Kernel: Linux 7.0.12-1-pve\n    Architecture: x86-64\n\n 22:14:05 up 7 days, 10:22,  2 users,  load average: 2.20, 2.11, 1.80\n\n               total        used        free      shared  buff/cache   available\nMem:           4.0Gi       163Mi       3.6Gi       3.1Mi       250Mi       3.8Gi\nSwap:          512Mi       312Mi       199Mi\n\nFilesystem                        Size  Used Avail Use% Mounted on\n/dev/mapper/pve-vm--202--disk--0   20G  5.4G   14G  30% /\nnone                              492K  4.0K  488K   1% /dev\nudev                               16G     0   16G   0% /dev/tty\ntmpfs                              16G     0   16G   0% /dev/shm\ntmpfs                             6.3G  140K  6.3G   1% /run\ntmpfs                             5.0M     0  5.0M   0% /run/lock\ntmpfs                              16G   15M   16G   1% /tmp\ntmpfs                             3.2G   16K  3.2G   1% /run/user/1000\ntmpfs                             3.2G   12K  3.2G   1% /run/user/0\n",
+                "stderr": "Failed to query product UUID, ignoring: Access denied\nFailed to query hardware serial, ignoring: Access denied\n"
+              },
+              "open_ports": {
+                "ok": true,
+                "command": "open_ports",
+                "stdout": "Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                             \nudp   UNCONN 0      0            0.0.0.0:68        0.0.0.0:*                                       \ntcp   LISTEN 0      100        127.0.0.1:25        0.0.0.0:*                                       \ntcp   LISTEN 0      2048         0.0.0.0:9119      0.0.0.0:*    users:((\"hermes\",pid=22337,fd=13)) \ntcp   LISTEN 0      511          0.0.0.0:5173      0.0.0.0:*                                       \ntcp   LISTEN 0      2048         0.0.0.0:8088      0.0.0.0:*    users:((\"python3\",pid=44207,fd=12))\ntcp   LISTEN 0      100            [::1]:25           [::]:*                                       \ntcp   LISTEN 0      4096               *:22              *:*                                       \n",
+                "stderr": ""
+              },
+              "users": {
+                "ok": true,
+                "command": "users",
+                "stdout": "root:0:/bin/bash\ndaemon:1:/usr/sbin/nologin\nbin:2:/usr/sbin/nologin\nsys:3:/usr/sbin/nologin\nsync:4:/bin/sync\ngames:5:/usr/sbin/nologin\nman:6:/usr/sbin/nologin\nlp:7:/usr/sbin/nologin\nmail:8:/usr/sbin/nologin\nnews:9:/usr/sbin/nologin\nuucp:10:/usr/sbin/nologin\nproxy:13:/usr/sbin/nologin\nwww-data:33:/usr/sbin/nologin\nbackup:34:/usr/sbin/nologin\nlist:38:/usr/sbin/nologin\nirc:39:/usr/sbin/nologin\n_apt:42:/usr/sbin/nologin\nnobody:65534:/usr/sbin/nologin\nsystemd-network:998:/usr/sbin/nologin\ndhcpcd:100:/bin/false\nsshd:991:/usr/sbin/nologin\npostfix:101:/usr/sbin/nologin\nsystemd-timesync:990:/usr/sbin/nologin\nmessagebus:989:/usr/sbin/nologin\nhermes:1000:/bin/bash\n",
+                "stderr": ""
+              },
+              "ssh_audit": {
+                "ok": true,
+                "command": "ssh_audit",
+                "stdout": "#Port 22\n#PermitRootLogin prohibit-password\n#PubkeyAuthentication yes\n#PasswordAuthentication yes\n# PasswordAuthentication.  Depending on your PAM configuration,\n",
+                "stderr": ""
+              },
+              "services": {
+                "ok": true,
+                "command": "services",
+                "stdout": "  UNIT                      LOAD   ACTIVE SUB     DESCRIPTION\n  console-getty.service     loaded active running Console Getty\n  container-getty@1.service loaded active running Container Getty on /dev/tty1\n  container-getty@2.service loaded active running Container Getty on /dev/tty2\n  cron.service              loaded active running Regular background program processing daemon\n  dbus.service              loaded active running D-Bus System Message Bus\n  hermes-api.service        loaded active running Hermes API\n  hermes-dashboard.service  loaded active running Hermes Agent Web Dashboard\n  hermes-guardian.service   loaded active running Hermes Guardian Daemon\n  hermes-ui.service         loaded active running Hermes UI\n  postfix.service           loaded active running Postfix Mail Transport Agent (main/default instance)\n  ssh.service               loaded active running OpenBSD Secure Shell server\n  systemd-hostnamed.service loaded active running Hostname Service\n  systemd-journald.service  loaded active running Journal Service\n  systemd-logind.service    loaded active running User Login Management\n  systemd-networkd.service  loaded active running Network Configuration\n  user@0.service            loaded active running User Manager for UID 0\n  user@1000.service         loaded active running User Manager for UID 1000\n\nLegend: LOAD   → Reflects whether the unit definition was properly loaded.\n        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.\n        SUB    → The low-level unit activation state, values depend on unit type.\n\n17 loaded units listed.\n",
+                "stderr": ""
+              },
+              "updates": {
+                "ok": true,
+                "command": "updates",
+                "stdout": "Listing...\nxserver-common/stable-security 2:21.1.16-1.3+deb13u3 all [upgradable from: 2:21.1.16-1.3+deb13u2]\nxvfb/stable-security 2:21.1.16-1.3+deb13u3 amd64 [upgradable from: 2:21.1.16-1.3+deb13u2]\n",
+                "stderr": ""
+              },
+              "docker_ps": {
+                "ok": true,
+                "command": "docker_ps",
+                "stdout": "Docker not available\n",
+                "stderr": ""
+              }
+            },
+            "analysis": "**1. Rezumat**  \nServerul are un scor de securitate scăzut (52/100). Sunt identificate 5 probleme, dintre care 3 au severitate medie, 1 are severitate mare, iar una este informațională. Majoritatea problemelor necesită aprobare pentru rezolvare.  \n\n**2. Probleme găsite**  \n- **2 pachete au update disponibil** (severitate medie)  \n- **Hermes API ascultă public pe 8088** (severitate medie)  \n- **SSH password authentication pare permisă/neclară** (severitate mare)  \n- **Politica SSH pentru root este neclară** (severitate medie)  \n- **Docker nu este disponibil** (informațional, nu necesită acțiune)  \n\n**3. Acțiuni safe (fără aprobare)**  \n- Aplicați actualizările disponibile:  \n  ```bash\n  sudo apt update && sudo apt upgrade -y\n  ```  \n- Verificați și activați autentificarea cu cheie SSH (dezactivați autentificarea cu parolă):  \n  ```bash\n  sudo nano /etc/ssh/sshd_config\n  ```  \n  Setați `PasswordAuthentication no` și salvați.  \n  ```bash\n  sudo systemctl restart ssh\n  ```  \n\n**4. Acțiuni care cer aprobare**  \n- **Modificați politica SSH pentru root**:  \n  - Aprobare: Setați `PermitRootLogin no` în `/etc/ssh/sshd_config`.  \n- **Restrângeți accesul la Hermes API**:  \n  - Aprobare: Modificați `ListenAddress` în configurația API pentru a limita accesul la IP-uri interne (ex: `127.0.0.1`).  \n- **Actualizarea pachetelor**:  \n  - Aprobare: Aplicați manual actualizările disponibile.  \n\n**5. Comenzi recomandate**  \n- Verificați starea SSH:  \n  ```bash\n  sudo sshd -t\n  ```  \n- Verificați firewall (ex: ufw):  \n  ```bash\n  sudo ufw status\n  ```  \n- Verificați dacă portul 8088 este deschis:  \n  ```bash\n  sudo netstat -tuln | grep 8088\n  ```  \n- Verificați scorul de securitate după modificări:  \n  ```bash\n  sudo security-scorecard scan\n  ```  \n\n**Notă:** Asigurați-vă că toate acțiunile sunt testate într-un mediu sigur înainte de implementare. Dacă aveți îndoieli, consultați documentația Hermes sau un administrator de securitate."
+          }
+        },
+        "finished_at": "2026-07-07T19:14:32.556700+00:00"
+      },
+      {
+        "id": "security-updates",
+        "title": "Aplică update-uri de securitate",
+        "action": "security.apply_updates",
+        "params": {},
+        "risk": "CONFIRM",
+        "status": "done",
+        "requires_confirmation": true,
+        "blocked": false,
+        "approved": true,
+        "approved_at": "2026-07-07T19:20:00.267810+00:00",
+        "started_at": "2026-07-07T19:20:04.125784+00:00",
+        "result": {
+          "ok": true,
+          "action": "security.apply_updates",
+          "dry_run": true,
+          "result": {
+            "message": "Alpha 4 dry-run: ar rula apt update și ar pregăti upgrade-ul, dar nu modifică sistemul.",
+            "commands_preview": [
+              "apt update",
+              "apt list --upgradable",
+              "apt upgrade"
+            ],
+            "requires_real_execution_in": "Alpha 5"
+          }
+        },
+        "finished_at": "2026-07-07T19:20:04.125787+00:00"
+      },
+      {
+        "id": "security-ssh",
+        "title": "Întărește configurația SSH",
+        "action": "security.fix_ssh",
+        "params": {},
+        "risk": "CONFIRM",
+        "status": "waiting_confirmation",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "approved-only",
+      "executed_count": 1,
+      "skipped_count": 3,
+      "failed_count": 0,
+      "waiting_confirmation_count": 1
+    },
+    "updated_at": "2026-07-07T19:20:04.125879+00:00",
+    "logs": [
+      {
+        "time": "2026-07-07T19:14:04.934856+00:00",
+        "level": "info",
+        "message": "Starting SAFE-only execution"
+      },
+      {
+        "time": "2026-07-07T19:14:32.556717+00:00",
+        "level": "info",
+        "message": "SAFE execution finished with status waiting_confirmation"
+      },
+      {
+        "time": "2026-07-07T19:20:00.267821+00:00",
+        "level": "approval",
+        "message": "Approved step security-updates"
+      },
+      {
+        "time": "2026-07-07T19:20:04.125774+00:00",
+        "level": "info",
+        "message": "Starting approved-step execution"
+      },
+      {
+        "time": "2026-07-07T19:20:04.125790+00:00",
+        "level": "info",
+        "message": "Approved execution finished with status waiting_confirmation"
+      }
+    ]
+  }
+]

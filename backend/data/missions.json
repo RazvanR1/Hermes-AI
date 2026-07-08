@@ -1,0 +1,226 @@
+[
+  {
+    "id": "b125ca64-adeb-4279-992c-d2cbd33ccc17",
+    "time": "2026-07-07T07:52:38.417348+00:00",
+    "mission": "Restart vm 110",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Reboot VM 110",
+        "tool": "proxmox_action",
+        "action": "reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": "UPID:proxmox:002184A5:03D6F0C0:6A4CB009:qmreboot:110:hermes@pve!api:",
+          "error": "",
+          "task": {
+            "ok": false,
+            "status": "VM quit/powerdown failed - got timeout",
+            "upid": "UPID:proxmox:002184A5:03D6F0C0:6A4CB009:qmreboot:110:hermes@pve!api:"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "928de6e6-76f8-45ba-8430-f3337051057b",
+    "time": "2026-07-07T09:20:00.003673+00:00",
+    "mission": "restart vm 110",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Reboot VM 110",
+        "tool": "proxmox_action",
+        "action": "reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": "UPID:proxmox:0023A63F:03DF03FB:6A4CC4B5:qmreboot:110:hermes@pve!api:",
+          "error": "",
+          "task": {
+            "ok": false,
+            "status": "can't lock file '/var/lock/qemu-server/lock-110.conf' - got timeout",
+            "upid": "UPID:proxmox:0023A63F:03DF03FB:6A4CC4B5:qmreboot:110:hermes@pve!api:"
+          },
+          "recovery": {
+            "title": "Force Reset VM",
+            "tool": "proxmox_action",
+            "action": "reset",
+            "params": {
+              "node": "proxmox",
+              "vmid": 110
+            },
+            "reason": "Graceful reboot timed out."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "71a34200-33db-4443-8184-620bd47b9c75",
+    "time": "2026-07-07T09:20:45.634539+00:00",
+    "mission": "restart vm 110",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Reboot VM 110",
+        "tool": "proxmox_action",
+        "action": "reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": "UPID:proxmox:0023A5ED:03DF022C:6A4CC4B1:qmreboot:110:hermes@pve!api:",
+          "error": "",
+          "task": {
+            "ok": false,
+            "status": "VM quit/powerdown failed - got timeout",
+            "upid": "UPID:proxmox:0023A5ED:03DF022C:6A4CC4B1:qmreboot:110:hermes@pve!api:"
+          },
+          "recovery": {
+            "title": "Force Reset VM",
+            "tool": "proxmox_action",
+            "action": "reset",
+            "params": {
+              "node": "proxmox",
+              "vmid": 110
+            },
+            "reason": "Graceful reboot timed out."
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "49ca0f7b-92cf-4c0d-bcf2-00ac447a72a7",
+    "time": "2026-07-07T13:00:13.996385+00:00",
+    "mission": "Security Scan",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Check infrastructure",
+        "tool": "proxmox",
+        "action": "nodes",
+        "params": {},
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": [
+            {
+              "status": "online",
+              "cpu": 0.102954680494787,
+              "mem": 24947527680,
+              "id": "node/proxmox",
+              "ssl_fingerprint": "9F:52:3D:12:17:D7:8E:1E:F2:7C:2E:78:8D:32:A1:9F:F1:8E:33:F2:37:5F:61:BF:EF:F4:AA:6E:3B:52:AE:AE",
+              "maxdisk": 100861726720,
+              "type": "node",
+              "maxmem": 33410142208,
+              "maxcpu": 20,
+              "uptime": 662690,
+              "node": "proxmox",
+              "level": "",
+              "disk": 63212498944
+            }
+          ],
+          "error": ""
+        }
+      }
+    ]
+  },
+  {
+    "id": "a98fcc62-4c14-4c22-a052-5d5c1e4ecdbe",
+    "time": "2026-07-07T13:00:29.692324+00:00",
+    "mission": "Security Scan",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Check infrastructure",
+        "tool": "proxmox",
+        "action": "nodes",
+        "params": {},
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": [
+            {
+              "cpu": 0.122974353983162,
+              "mem": 24842801152,
+              "ssl_fingerprint": "9F:52:3D:12:17:D7:8E:1E:F2:7C:2E:78:8D:32:A1:9F:F1:8E:33:F2:37:5F:61:BF:EF:F4:AA:6E:3B:52:AE:AE",
+              "maxdisk": 100861726720,
+              "id": "node/proxmox",
+              "status": "online",
+              "level": "",
+              "node": "proxmox",
+              "disk": 63212539904,
+              "maxcpu": 20,
+              "maxmem": 33410142208,
+              "type": "node",
+              "uptime": 662700
+            }
+          ],
+          "error": ""
+        }
+      }
+    ]
+  },
+  {
+    "id": "83efa130-abbf-4e74-9dc1-df092c12d898",
+    "time": "2026-07-07T13:00:31.711066+00:00",
+    "mission": "Security Scan",
+    "status": "completed",
+    "ok": true,
+    "steps": [
+      {
+        "step": 1,
+        "title": "Check infrastructure",
+        "tool": "proxmox",
+        "action": "nodes",
+        "params": {},
+        "result": {
+          "ok": true,
+          "status_code": 200,
+          "data": [
+            {
+              "cpu": 0.136999658719711,
+              "mem": 24931061760,
+              "id": "node/proxmox",
+              "ssl_fingerprint": "9F:52:3D:12:17:D7:8E:1E:F2:7C:2E:78:8D:32:A1:9F:F1:8E:33:F2:37:5F:61:BF:EF:F4:AA:6E:3B:52:AE:AE",
+              "maxdisk": 100861726720,
+              "status": "online",
+              "node": "proxmox",
+              "level": "",
+              "disk": 63212597248,
+              "type": "node",
+              "maxcpu": 20,
+              "maxmem": 33410142208,
+              "uptime": 662710
+            }
+          ],
+          "error": ""
+        }
+      }
+    ]
+  }
+]

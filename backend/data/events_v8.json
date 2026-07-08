@@ -1,0 +1,37 @@
+[
+  {
+    "event_id": "8f29f8a7-d584-47fa-959e-df60d7f3bfd7",
+    "time": "2026-07-08T08:38:59.542289+00:00",
+    "type": "VERIFY_FIX1",
+    "level": "info",
+    "mission_id": "verify-mission",
+    "step_id": null,
+    "message": "fix1 ok",
+    "data": {
+      "ok": true
+    },
+    "source": "api-test"
+  },
+  {
+    "event_id": "16c275fe-315d-4978-aebf-8f3299ca9444",
+    "time": "2026-07-08T08:38:57.291783+00:00",
+    "type": "FIX1_WRITE_TEST",
+    "level": "info",
+    "mission_id": null,
+    "step_id": null,
+    "message": "write test from hermes user",
+    "data": {},
+    "source": "fix1"
+  },
+  {
+    "event_id": "e37ac611-1dd1-49e0-9ea8-6606934aa4f7",
+    "time": "2026-07-08T08:33:56.677335+00:00",
+    "type": "INSTALL_TEST",
+    "level": "info",
+    "mission_id": null,
+    "step_id": null,
+    "message": "Events core install test",
+    "data": {},
+    "source": "installer"
+  }
+]

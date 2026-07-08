@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ACTION="${1:-}"
+
+case "$ACTION" in
+  linux.apt_update)
+    export DEBIAN_FRONTEND=noninteractive
+    /usr/bin/apt update
+    ;;
+  linux.apt_upgrade_preview)
+    /usr/bin/apt list --upgradable 2>/dev/null || true
+    ;;
+  *)
+    echo "Hermes privileged runner: action not allowed: $ACTION" >&2
+    exit 126
+    ;;
+esac
