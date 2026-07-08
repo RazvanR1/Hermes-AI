@@ -4,6 +4,11 @@ from typing import Dict, Any, List
 import json
 import uuid
 
+try:
+    from notifications.hub import notify
+except Exception:
+    notify = None
+
 DATA_DIR = Path(__file__).resolve().parent / "data"
 EVENTS_FILE = DATA_DIR / "events_v8.json"
 
@@ -65,6 +70,16 @@ def emit_event(
     events.insert(0, event)
     events = events[:5000]
     save_events(events)
+
+    notification_result = None
+    if notify is not None:
+        try:
+            notification_result = notify(event)
+        except Exception as exc:
+            notification_result = {"ok": False, "error": str(exc)}
+
+    if notification_result is not None:
+        event["notification"] = notification_result
 
     return event
 
