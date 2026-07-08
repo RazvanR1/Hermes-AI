@@ -32,6 +32,17 @@ def _log(mission: Dict[str, Any], level: str, message: str, data: Dict[str, Any]
     })
 
 
+def _extract_upid(result: Dict[str, Any]) -> str | None:
+    nested = result.get("result") if isinstance(result.get("result"), dict) else {}
+    data = nested.get("data") if isinstance(nested, dict) else None
+    if isinstance(data, str) and data.startswith("UPID:"):
+        return data
+    data = result.get("data")
+    if isinstance(data, str) and data.startswith("UPID:"):
+        return data
+    return None
+
+
 def _verify_step(step: Dict[str, Any], result: Dict[str, Any]) -> Dict[str, Any]:
     action = step.get("action")
     params = step.get("params") or {}
@@ -39,27 +50,48 @@ def _verify_step(step: Dict[str, Any], result: Dict[str, Any]) -> Dict[str, Any]
     if not result.get("ok"):
         return {"ok": False, "method": "result-ok", "message": "Action result is not ok"}
 
+    upid = _extract_upid(result)
+    if upid:
+        task = run_registered_action("proxmox.task.wait", {
+            "node": params.get("node", "proxmox"),
+            "upid": upid,
+            "timeout": int(params.get("task_timeout", 120)),
+            "interval": float(params.get("task_interval", 2)),
+        })
+        task_result = task.get("result") if isinstance(task.get("result"), dict) else {}
+        if not task.get("ok") or not task_result.get("ok"):
+            return {
+                "ok": False,
+                "method": "proxmox.task.wait",
+                "upid": upid,
+                "task": task,
+            }
+
     if action and action.startswith("proxmox.vm.") and action != "proxmox.vm.status":
-        time.sleep(3)
         verify = run_registered_action("proxmox.vm.status", {
             "node": params.get("node", "proxmox"),
             "vmid": params.get("vmid"),
         })
+        status = (((verify.get("result") or {}).get("data") or {}).get("status"))
         return {
-            "ok": bool(verify.get("ok")),
+            "ok": bool(verify.get("ok")) and status == "running",
             "method": "proxmox.vm.status",
+            "expected": "running",
+            "actual": status,
             "result": verify,
         }
 
     if action and action.startswith("proxmox.lxc.") and action != "proxmox.lxc.status":
-        time.sleep(3)
         verify = run_registered_action("proxmox.lxc.status", {
             "node": params.get("node", "proxmox"),
             "vmid": params.get("vmid"),
         })
+        status = (((verify.get("result") or {}).get("data") or {}).get("status"))
         return {
-            "ok": bool(verify.get("ok")),
+            "ok": bool(verify.get("ok")) and status == "running",
             "method": "proxmox.lxc.status",
+            "expected": "running",
+            "actual": status,
             "result": verify,
         }
 
