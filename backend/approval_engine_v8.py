@@ -1,10 +1,18 @@
 from typing import Dict, Any
 from datetime import datetime, timezone
+
 from mission_store_v8 import get_mission, update_mission
-from action_runner_v8 import run_action
+from beta1_execution_pipeline_v8 import execute_approved_steps
+
+try:
+    from mission_events_v8 import mission_approved, mission_rejected
+except Exception:
+    mission_approved = mission_rejected = None
+
 
 def _now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
 
 def list_pending_approvals() -> Dict[str, Any]:
     from mission_store_v8 import load_missions
@@ -27,6 +35,7 @@ def list_pending_approvals() -> Dict[str, Any]:
         "pending": pending,
         "count": len(pending)
     }
+
 
 def approve_step(mission_id: str, step_id: str) -> Dict[str, Any]:
     mission = get_mission(mission_id)
@@ -55,9 +64,24 @@ def approve_step(mission_id: str, step_id: str) -> Dict[str, Any]:
         "message": f"Approved step {step_id}"
     })
 
-    mission["status"] = "approved_pending_execution"
+    mission["status"] = "approved"
     update_mission(mission)
-    return {"ok": True, "mission": mission, "approved_step": found}
+
+    if mission_approved:
+        mission_approved(mission_id, step_id, data={
+            "action": found.get("action"),
+            "params": found.get("params") or {},
+        })
+
+    execution_result = execute_approved_steps(mission_id)
+
+    return {
+        "ok": execution_result.get("ok", False),
+        "approved_step": found,
+        "execution": execution_result,
+        "mission": execution_result.get("mission"),
+    }
+
 
 def reject_step(mission_id: str, step_id: str, reason: str = "") -> Dict[str, Any]:
     mission = get_mission(mission_id)
@@ -91,70 +115,12 @@ def reject_step(mission_id: str, step_id: str, reason: str = "") -> Dict[str, An
         mission["status"] = "waiting_confirmation"
 
     update_mission(mission)
+
+    if mission_rejected:
+        mission_rejected(mission_id, step_id, reason=reason)
+
     return {"ok": True, "mission": mission, "rejected_step": found}
 
+
 def run_approved_steps(mission_id: str) -> Dict[str, Any]:
-    mission = get_mission(mission_id)
-    if not mission:
-        return {"ok": False, "error": "Mission not found", "mission_id": mission_id}
-
-    mission["status"] = "running_approved"
-    mission.setdefault("logs", []).append({
-        "time": _now(),
-        "level": "info",
-        "message": "Starting approved-step execution"
-    })
-
-    executed = []
-    skipped = []
-    failed = []
-
-    for step in mission.get("steps", []):
-        if not step.get("approved"):
-            skipped.append(step)
-            continue
-
-        if step.get("status") == "done":
-            skipped.append(step)
-            continue
-
-        action = step.get("action")
-        step["status"] = "running"
-        step["started_at"] = _now()
-
-        result = run_action(action, step.get("params") or {})
-        step["result"] = result
-        step["finished_at"] = _now()
-
-        if result.get("ok"):
-            step["status"] = "done"
-            executed.append(step)
-        else:
-            step["status"] = "failed"
-            failed.append(step)
-
-    waiting = [s for s in mission.get("steps", []) if s.get("status") == "waiting_confirmation"]
-
-    if failed:
-        mission["status"] = "failed"
-    elif waiting:
-        mission["status"] = "waiting_confirmation"
-    else:
-        mission["status"] = "completed"
-
-    mission["execution"] = {
-        "mode": "approved-only",
-        "executed_count": len(executed),
-        "skipped_count": len(skipped),
-        "failed_count": len(failed),
-        "waiting_confirmation_count": len(waiting),
-    }
-
-    mission["logs"].append({
-        "time": _now(),
-        "level": "info",
-        "message": f"Approved execution finished with status {mission['status']}"
-    })
-
-    update_mission(mission)
-    return {"ok": True, "mission": mission}
+    return execute_approved_steps(mission_id)
