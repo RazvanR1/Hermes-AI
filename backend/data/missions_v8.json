@@ -1,6 +1,209 @@
 [
   {
     "ok": true,
+    "mission_id": "6c3233a2-6c4b-4986-a4fb-3289c158198b",
+    "created_at": "2026-07-09T12:09:04.770739+00:00",
+    "goal": "repornește VM 110",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "waiting_confirmation",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "params": {
+            "node": "proxmox",
+            "vmid": 110
+          },
+          "risk": "CONFIRM",
+          "status": "waiting_confirmation",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.reboot pentru VM 110",
+        "action": "proxmox.vm.reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "risk": "CONFIRM",
+        "status": "waiting_confirmation",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "telegram-buttons-test-4",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-09T12:09:04.770938+00:00"
+  },
+  {
+    "ok": true,
+    "mission_id": "19821677-a3a4-40d8-8f69-dc8e2b601645",
+    "created_at": "2026-07-09T11:46:46.592681+00:00",
+    "goal": "repornește VM 110",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "failed",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "params": {
+            "node": "proxmox",
+            "vmid": 110
+          },
+          "risk": "CONFIRM",
+          "status": "waiting_confirmation",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.reboot pentru VM 110",
+        "action": "proxmox.vm.reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "risk": "CONFIRM",
+        "status": "failed",
+        "requires_confirmation": true,
+        "blocked": false,
+        "approved": true,
+        "approved_at": "2026-07-09T11:55:48.085659+00:00",
+        "started_at": "2026-07-09T11:55:48.465195+00:00",
+        "result": {
+          "ok": false,
+          "action": "proxmox.vm.reboot",
+          "error": "Action runner not implemented for this action"
+        },
+        "finished_at": "2026-07-09T11:55:48.465199+00:00"
+      }
+    ],
+    "execution": {
+      "mode": "approved-only",
+      "executed_count": 0,
+      "skipped_count": 0,
+      "failed_count": 1,
+      "waiting_confirmation_count": 0
+    },
+    "source": "telegram-buttons-test-3",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-09T11:55:48.465439+00:00",
+    "logs": [
+      {
+        "time": "2026-07-09T11:55:48.085667+00:00",
+        "level": "approval",
+        "message": "Approved step operator-proxmox-action"
+      },
+      {
+        "time": "2026-07-09T11:55:48.465181+00:00",
+        "level": "info",
+        "message": "Starting approved-step execution"
+      },
+      {
+        "time": "2026-07-09T11:55:48.465205+00:00",
+        "level": "info",
+        "message": "Approved execution finished with status failed"
+      }
+    ]
+  },
+  {
+    "ok": true,
+    "mission_id": "20faeeed-a66c-43eb-9d84-23cfc3a34cda",
+    "created_at": "2026-07-09T11:25:27.372714+00:00",
+    "goal": "repornește VM 110",
+    "intent": {
+      "intent": "proxmox.plan",
+      "skill": "proxmox",
+      "risk": "CONFIRM",
+      "reason": "Cererea este legată de Proxmox/VM/LXC."
+    },
+    "status": "waiting_confirmation",
+    "evaluation": {
+      "overall_risk": "CONFIRM",
+      "safe_count": 0,
+      "confirm_count": 1,
+      "blocked_count": 0,
+      "safe": [],
+      "requires_confirmation": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "params": {
+            "node": "proxmox",
+            "vmid": 110
+          },
+          "risk": "CONFIRM",
+          "status": "waiting_confirmation",
+          "requires_confirmation": true,
+          "blocked": false
+        }
+      ],
+      "blocked": []
+    },
+    "steps": [
+      {
+        "id": "operator-proxmox-action",
+        "title": "proxmox.vm.reboot pentru VM 110",
+        "action": "proxmox.vm.reboot",
+        "params": {
+          "node": "proxmox",
+          "vmid": 110
+        },
+        "risk": "CONFIRM",
+        "status": "waiting_confirmation",
+        "requires_confirmation": true,
+        "blocked": false
+      }
+    ],
+    "execution": {
+      "mode": "preview",
+      "message": "Alpha 2 creează misiuni și clasifică riscul. Execuția reală vine în Alpha 3."
+    },
+    "source": "telegram-buttons-test",
+    "requested_by": "mircea",
+    "updated_at": "2026-07-09T11:25:27.372947+00:00"
+  },
+  {
+    "ok": true,
     "mission_id": "b69db613-d702-4ddf-9303-1930df15d9de",
     "created_at": "2026-07-08T08:03:40.302187+00:00",
     "goal": "repornește VM 111",

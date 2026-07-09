@@ -16,17 +16,15 @@ def send_telegram_message(
     chat_id: Optional[str] = None,
     parse_mode: str = "HTML",
     disable_web_page_preview: bool = True,
+    reply_markup: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     token = _env("TELEGRAM_BOT_TOKEN")
     target_chat_id = chat_id or _env("TELEGRAM_CHAT_ID")
 
     if not token:
         return {"ok": False, "error": "Missing TELEGRAM_BOT_TOKEN"}
-
     if not target_chat_id:
         return {"ok": False, "error": "Missing TELEGRAM_CHAT_ID"}
-
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
 
     payload = {
         "chat_id": target_chat_id,
@@ -35,14 +33,34 @@ def send_telegram_message(
         "disable_web_page_preview": disable_web_page_preview,
     }
 
+    if reply_markup:
+        payload["reply_markup"] = reply_markup
+
     try:
-        r = requests.post(url, json=payload, timeout=15)
+        r = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            json=payload,
+            timeout=15,
+        )
         data = r.json()
-        return {
-            "ok": r.ok and data.get("ok") is True,
-            "http_status": r.status_code,
-            "telegram": data,
-        }
+        return {"ok": r.ok and data.get("ok") is True, "http_status": r.status_code, "telegram": data}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
+def answer_callback_query(callback_query_id: str, text: str = "") -> Dict[str, Any]:
+    token = _env("TELEGRAM_BOT_TOKEN")
+    if not token:
+        return {"ok": False, "error": "Missing TELEGRAM_BOT_TOKEN"}
+
+    try:
+        r = requests.post(
+            f"https://api.telegram.org/bot{token}/answerCallbackQuery",
+            json={"callback_query_id": callback_query_id, "text": text},
+            timeout=15,
+        )
+        data = r.json()
+        return {"ok": r.ok and data.get("ok") is True, "http_status": r.status_code, "telegram": data}
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
@@ -55,7 +73,10 @@ def format_mission_event(event: Dict[str, Any]) -> str:
     level = event.get("level") or "info"
 
     icon = {
+        "MISSION_CREATED": "🧠",
+        "MISSION_APPROVAL_REQUIRED": "⚠️",
         "MISSION_APPROVED": "✅",
+        "MISSION_REJECTED": "❌",
         "MISSION_RUNNING": "▶️",
         "MISSION_COMPLETED": "🏁",
         "MISSION_FAILED": "❌",

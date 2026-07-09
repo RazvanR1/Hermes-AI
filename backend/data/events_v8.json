@@ -1,5 +1,162 @@
 [
   {
+    "event_id": "e6696350-9db3-46ba-9114-ee335be05387",
+    "time": "2026-07-09T12:09:04.994838+00:00",
+    "type": "MISSION_APPROVAL_REQUIRED",
+    "level": "warning",
+    "mission_id": "6c3233a2-6c4b-4986-a4fb-3289c158198b",
+    "step_id": null,
+    "message": "Approval required: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM",
+      "waiting_steps": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "risk": "CONFIRM"
+        }
+      ],
+      "waiting_count": 1
+    },
+    "source": "approval"
+  },
+  {
+    "event_id": "a36417d2-af54-4562-909d-b39f08343068",
+    "time": "2026-07-09T12:09:04.771239+00:00",
+    "type": "MISSION_CREATED",
+    "level": "info",
+    "mission_id": "6c3233a2-6c4b-4986-a4fb-3289c158198b",
+    "step_id": null,
+    "message": "Mission created: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM"
+    },
+    "source": "mission"
+  },
+  {
+    "event_id": "d2aac07a-dbac-43da-bdc1-8b04fed19d77",
+    "time": "2026-07-09T11:46:46.847208+00:00",
+    "type": "MISSION_APPROVAL_REQUIRED",
+    "level": "warning",
+    "mission_id": "19821677-a3a4-40d8-8f69-dc8e2b601645",
+    "step_id": null,
+    "message": "Approval required: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM",
+      "waiting_steps": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "risk": "CONFIRM"
+        }
+      ],
+      "waiting_count": 1
+    },
+    "source": "approval"
+  },
+  {
+    "event_id": "aea9b9cf-31ee-4901-a80c-88f2d45f3236",
+    "time": "2026-07-09T11:46:46.593627+00:00",
+    "type": "MISSION_CREATED",
+    "level": "info",
+    "mission_id": "19821677-a3a4-40d8-8f69-dc8e2b601645",
+    "step_id": null,
+    "message": "Mission created: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM"
+    },
+    "source": "mission"
+  },
+  {
+    "event_id": "73d27350-20a1-4b28-9c0c-906bed6f2f87",
+    "time": "2026-07-09T11:44:07.202410+00:00",
+    "type": "TEST_EVENT",
+    "level": "info",
+    "mission_id": "telegram-debug",
+    "step_id": null,
+    "message": "Debug approval required",
+    "data": {
+      "waiting_steps": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "test",
+          "action": "proxmox.vm.reboot",
+          "risk": "CONFIRM"
+        }
+      ]
+    },
+    "source": "api-test"
+  },
+  {
+    "event_id": "49485542-bbf0-4d45-9fef-c4b7b9b7c661",
+    "time": "2026-07-09T11:43:50.670100+00:00",
+    "type": "TEST_EVENT",
+    "level": "info",
+    "mission_id": "telegram-debug",
+    "step_id": null,
+    "message": "Debug approval required",
+    "data": {
+      "waiting_steps": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "test",
+          "action": "proxmox.vm.reboot",
+          "risk": "CONFIRM"
+        }
+      ]
+    },
+    "source": "api-test"
+  },
+  {
+    "event_id": "03f2d58f-7d9a-4ecc-92fd-23a447f9877f",
+    "time": "2026-07-09T11:25:27.731890+00:00",
+    "type": "MISSION_APPROVAL_REQUIRED",
+    "level": "warning",
+    "mission_id": "20faeeed-a66c-43eb-9d84-23cfc3a34cda",
+    "step_id": null,
+    "message": "Approval required: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM",
+      "waiting_steps": [
+        {
+          "id": "operator-proxmox-action",
+          "title": "proxmox.vm.reboot pentru VM 110",
+          "action": "proxmox.vm.reboot",
+          "risk": "CONFIRM"
+        }
+      ],
+      "waiting_count": 1
+    },
+    "source": "approval"
+  },
+  {
+    "event_id": "62c1d3fd-9083-4298-ae0c-e1256d5f1f94",
+    "time": "2026-07-09T11:25:27.373252+00:00",
+    "type": "MISSION_CREATED",
+    "level": "info",
+    "mission_id": "20faeeed-a66c-43eb-9d84-23cfc3a34cda",
+    "step_id": null,
+    "message": "Mission created: repornește VM 110",
+    "data": {
+      "goal": "repornește VM 110",
+      "status": "waiting_confirmation",
+      "risk": "CONFIRM"
+    },
+    "source": "mission"
+  },
+  {
     "event_id": "8f29f8a7-d584-47fa-959e-df60d7f3bfd7",
     "time": "2026-07-08T08:38:59.542289+00:00",
     "type": "VERIFY_FIX1",

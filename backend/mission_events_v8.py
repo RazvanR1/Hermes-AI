@@ -3,6 +3,7 @@ from event_bus_v8 import emit_event
 
 
 MISSION_CREATED = "MISSION_CREATED"
+MISSION_APPROVAL_REQUIRED = "MISSION_APPROVAL_REQUIRED"
 MISSION_APPROVED = "MISSION_APPROVED"
 MISSION_REJECTED = "MISSION_REJECTED"
 MISSION_RUNNING = "MISSION_RUNNING"
@@ -26,6 +27,38 @@ def mission_created(mission: Dict[str, Any]):
         source="mission",
     )
 
+
+
+def mission_approval_required(mission: Dict[str, Any]):
+    waiting_steps = [
+        step for step in mission.get("steps", [])
+        if step.get("status") == "waiting_confirmation"
+        or step.get("requires_confirmation")
+        or step.get("risk") == "CONFIRM"
+    ]
+
+    return emit_event(
+        MISSION_APPROVAL_REQUIRED,
+        mission_id=mission.get("mission_id"),
+        level="warning",
+        message=f"Approval required: {mission.get('goal')}",
+        data={
+            "goal": mission.get("goal"),
+            "status": mission.get("status"),
+            "risk": mission.get("evaluation", {}).get("overall_risk"),
+            "waiting_steps": [
+                {
+                    "id": step.get("id"),
+                    "title": step.get("title"),
+                    "action": step.get("action"),
+                    "risk": step.get("risk"),
+                }
+                for step in waiting_steps
+            ],
+            "waiting_count": len(waiting_steps),
+        },
+        source="approval",
+    )
 
 def mission_approved(mission_id: str, step_id: str | None = None, data: Dict[str, Any] | None = None):
     return emit_event(

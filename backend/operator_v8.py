@@ -4,7 +4,7 @@ from typing import Dict, Any, List
 from brain_v8 import detect_intent
 from executor_v8 import build_step, create_mission
 from mission_store_v8 import save_mission
-from mission_events_v8 import mission_created
+from mission_events_v8 import mission_created, mission_approval_required
 
 
 def _extract_target(message: str) -> Dict[str, Any]:
@@ -127,6 +127,9 @@ def operator_chat(message: str, source: str = "api", user: str = "local") -> Dic
         step for step in mission.get("steps", [])
         if step.get("requires_confirmation") or step.get("risk") == "CONFIRM"
     ]
+
+    if requires_approval:
+        mission_approval_required(mission)
 
     safe_steps = [
         step for step in mission.get("steps", [])
