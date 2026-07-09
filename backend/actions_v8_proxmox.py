@@ -1,6 +1,7 @@
 import os
 from typing import Dict, Any
 import requests
+import time
 
 from actions_v8_registry import Action, register
 
@@ -172,8 +173,58 @@ def lxc_stop(params: dict) -> Dict[str, Any]:
     return _post_lxc_status("stop", params)
 
 
+
+def proxmox_task_status(params: dict) -> Dict[str, Any]:
+    node = _require(params, "node")
+    upid = _require(params, "upid")
+    client = _client()
+    data = client.get(f"/nodes/{node}/tasks/{upid}/status")
+    return {
+        "ok": True,
+        "node": node,
+        "upid": upid,
+        "data": data,
+    }
+
+
+def proxmox_task_wait(params: dict) -> Dict[str, Any]:
+    node = _require(params, "node")
+    upid = _require(params, "upid")
+    timeout = int(params.get("timeout", 120))
+    interval = float(params.get("interval", 2))
+
+    client = _client()
+    deadline = time.time() + timeout
+    last = None
+
+    while time.time() < deadline:
+        data = client.get(f"/nodes/{node}/tasks/{upid}/status")
+        last = data
+        if data.get("status") == "stopped":
+            exitstatus = data.get("exitstatus")
+            return {
+                "ok": exitstatus == "OK",
+                "node": node,
+                "upid": upid,
+                "status": data.get("status"),
+                "exitstatus": exitstatus,
+                "data": data,
+            }
+        time.sleep(interval)
+
+    return {
+        "ok": False,
+        "node": node,
+        "upid": upid,
+        "status": "timeout",
+        "exitstatus": None,
+        "data": last,
+    }
+
 def register_proxmox_actions() -> None:
     register(Action("proxmox.nodes", "SAFE", "List Proxmox nodes", proxmox_nodes))
+    register(Action("proxmox.task.status", "SAFE", "Get Proxmox task status", proxmox_task_status))
+    register(Action("proxmox.task.wait", "SAFE", "Wait for Proxmox task completion", proxmox_task_wait))
     register(Action("proxmox.vm.status", "SAFE", "Get Proxmox VM status", proxmox_vm_status))
     register(Action("proxmox.lxc.status", "SAFE", "Get Proxmox LXC status", proxmox_lxc_status))
 
