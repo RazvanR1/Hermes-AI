@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { HermesMission } from "../../../api/missions";
 import type {
   ConversationMessage,
@@ -15,7 +15,7 @@ function generateMessageId(): string {
 
   return [
     Date.now().toString(36),
-    Math.random().toString(36).slice(2, 10),
+    Math.random().toString(36).slice(2),
   ].join("-");
 }
 
@@ -35,36 +35,48 @@ function createMessage(
 
 export function useConversation() {
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
+  const [isThinking, setThinking] = useState(false);
 
-  const addUserMessage = useCallback((text: string) => {
-    setMessages((current) => [
-      ...current,
-      createMessage("user", text),
-    ]);
-  }, []);
-
-  const addAssistantMessage = useCallback((text: string) => {
-    setMessages((current) => [
-      ...current,
-      createMessage("assistant", text),
-    ]);
-  }, []);
-
-  const addSystemMessage = useCallback((text: string) => {
-    setMessages((current) => [
-      ...current,
-      createMessage("system", text),
-    ]);
-  }, []);
-
-  const addMissionMessage = useCallback(
-    (mission: HermesMission, text?: string) => {
+  const addMessage = useCallback(
+    (
+      type: ConversationMessageType,
+      text?: string,
+      mission?: HermesMission,
+    ) => {
       setMessages((current) => [
         ...current,
-        createMessage("mission", text, mission),
+        createMessage(type, text, mission),
       ]);
     },
     [],
+  );
+
+  const addUserMessage = useCallback(
+    (text: string) => {
+      addMessage("user", text);
+    },
+    [addMessage],
+  );
+
+  const addAssistantMessage = useCallback(
+    (text: string) => {
+      addMessage("assistant", text);
+    },
+    [addMessage],
+  );
+
+  const addSystemMessage = useCallback(
+    (text: string) => {
+      addMessage("system", text);
+    },
+    [addMessage],
+  );
+
+  const addMissionMessage = useCallback(
+    (mission: HermesMission, text?: string) => {
+      addMessage("mission", text, mission);
+    },
+    [addMessage],
   );
 
   const updateMissionMessage = useCallback(
@@ -86,10 +98,21 @@ export function useConversation() {
 
   const clearConversation = useCallback(() => {
     setMessages([]);
+    setThinking(false);
   }, []);
+
+  const conversationStarted = useMemo(
+    () => messages.length > 0,
+    [messages],
+  );
 
   return {
     messages,
+    conversationStarted,
+
+    isThinking,
+    setThinking,
+
     addUserMessage,
     addAssistantMessage,
     addSystemMessage,
