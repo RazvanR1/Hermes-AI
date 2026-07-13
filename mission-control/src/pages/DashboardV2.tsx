@@ -3,7 +3,7 @@ import PageContainer from "../components/ui/PageContainer";
 import ProgressRing from "../components/ui/ProgressRing";
 import GlassPanel from "../components/ui/GlassPanel";
 import AIWorkforce from "../components/dashboard/AIWorkforce";
-import MissionConsole from "../components/dashboard/MissionConsole";
+import { ChatPage } from "../features/chat";
 import SystemPulse from "../components/dashboard/SystemPulse";
 import HeroStats from "../components/dashboard/HeroStats";
 import InfrastructureMap from "../components/infrastructure/InfrastructureMap";
@@ -64,7 +64,7 @@ export default function DashboardV2() {
         <AIWorkforce />
 
         <div className="mt-6">
-          <MissionConsole />
+          <ChatPage />
         </div>
 
         <InfrastructureMap />

@@ -1,46 +1,29 @@
-import {
-  Bot,
-  CheckCircle2,
-  CircleUserRound,
-  Info,
-} from "lucide-react";
+import { Bot, CircleUserRound, Info, LoaderCircle } from "lucide-react";
+import type { HermesMission } from "../../../api/missions";
+import MissionCard from "./MissionCard";
 import type { ConversationMessage as ConversationMessageType } from "../types";
 
 interface ChatMessageProps {
   message: ConversationMessageType;
+  busyMissionId?: string | null;
+  onApprove?: (mission: HermesMission) => void;
+  onReject?: (mission: HermesMission) => void;
 }
 
-function statusClass(status: string): string {
-  const normalized = status.toLowerCase();
-
-  if (["completed", "success", "succeeded"].includes(normalized)) {
-    return "text-emerald-300";
-  }
-
-  if (["failed", "rejected", "blocked"].includes(normalized)) {
-    return "text-red-300";
-  }
-
-  if (["running", "executing"].includes(normalized)) {
-    return "text-cyan-300";
-  }
-
-  return "text-amber-300";
-}
-
-export default function ChatMessage({ message }: ChatMessageProps) {
+export default function ChatMessage({
+  message,
+  busyMissionId,
+  onApprove,
+  onReject,
+}: ChatMessageProps) {
   if (message.type === "user") {
     return (
       <div className="flex justify-end">
-        <div className="max-w-[85%] rounded-2xl rounded-br-md border border-cyan-400/15 bg-cyan-500/10 px-4 py-3">
-          <div className="mb-2 flex items-center justify-end gap-2 text-xs font-semibold text-cyan-300">
-            Tu
-            <CircleUserRound size={15} />
+        <div className="max-w-[86%] rounded-[22px] rounded-br-md border border-cyan-300/15 bg-cyan-300/10 px-4 py-3 sm:max-w-[72%]">
+          <div className="mb-1.5 flex items-center justify-end gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan-300">
+            Tu <CircleUserRound size={14} />
           </div>
-
-          <p className="whitespace-pre-wrap text-sm leading-6 text-slate-100">
-            {message.text}
-          </p>
+          <p className="whitespace-pre-wrap text-sm leading-6 text-slate-100">{message.text}</p>
         </div>
       </div>
     );
@@ -49,101 +32,50 @@ export default function ChatMessage({ message }: ChatMessageProps) {
   if (message.type === "system") {
     return (
       <div className="flex justify-center">
-        <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-4 py-2 text-xs text-slate-400">
-          <Info size={14} />
-          {message.text}
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/8 bg-white/[0.03] px-3 py-1.5 text-xs text-slate-500">
+          <Info size={13} /> {message.text}
         </div>
       </div>
     );
   }
 
   if (message.type === "mission" && message.mission) {
-    const mission = message.mission;
-
     return (
       <div className="flex justify-start">
-        <div className="w-full max-w-[92%] rounded-2xl rounded-bl-md border border-violet-400/15 bg-slate-950/75 p-4">
-          <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-violet-300">
-            <Bot size={17} />
-            Hermes
-          </div>
-
-          {message.text && (
-            <p className="mb-4 text-sm leading-6 text-slate-300">
-              {message.text}
-            </p>
-          )}
-
-          <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-slate-900/70 p-3">
-              <div className="text-xs text-slate-500">Risc</div>
-              <div className="mt-1 font-bold text-amber-300">
-                {mission.evaluation.overall_risk}
+        <div className="w-full max-w-3xl">
+          {message.text ? (
+            <div className="mb-3 flex items-start gap-3">
+              <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-violet-400/15 bg-violet-400/10 text-violet-300">
+                <Bot size={16} />
               </div>
+              <p className="pt-1 text-sm leading-6 text-slate-300">{message.text}</p>
             </div>
-
-            <div className="rounded-xl bg-slate-900/70 p-3">
-              <div className="text-xs text-slate-500">Status</div>
-              <div className={`mt-1 font-bold ${statusClass(mission.status)}`}>
-                {mission.status}
-              </div>
-            </div>
-
-            <div className="rounded-xl bg-slate-900/70 p-3">
-              <div className="text-xs text-slate-500">Skill</div>
-              <div className="mt-1 font-bold text-violet-300">
-                {mission.intent.skill}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-2">
-            {mission.steps.map((step) => (
-              <div
-                key={step.id}
-                className="flex items-center justify-between gap-3 rounded-lg border border-slate-800 bg-slate-900/55 px-3 py-2"
-              >
-                <div>
-                  <div className="text-sm text-slate-200">
-                    {step.title}
-                  </div>
-
-                  <div className="font-mono text-xs text-slate-500">
-                    {step.action}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {step.status === "completed" && (
-                    <CheckCircle2
-                      className="text-emerald-400"
-                      size={16}
-                    />
-                  )}
-
-                  <span className={`text-xs ${statusClass(step.status)}`}>
-                    {step.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          ) : null}
+          <MissionCard
+            mission={message.mission}
+            busy={busyMissionId === message.mission.mission_id}
+            onApprove={onApprove}
+            onReject={onReject}
+          />
         </div>
       </div>
     );
   }
 
+  const isThinking = message.text?.startsWith("Analizez");
+
   return (
     <div className="flex justify-start">
-      <div className="max-w-[85%] rounded-2xl rounded-bl-md border border-violet-400/15 bg-violet-500/5 px-4 py-3">
-        <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-violet-300">
-          <Bot size={15} />
-          Hermes
+      <div className="flex max-w-3xl items-start gap-3">
+        <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-violet-400/15 bg-violet-400/10 text-violet-300">
+          {isThinking ? <LoaderCircle className="animate-spin" size={16} /> : <Bot size={16} />}
         </div>
-
-        <p className="whitespace-pre-wrap text-sm leading-6 text-slate-200">
-          {message.text}
-        </p>
+        <div className="rounded-[22px] rounded-bl-md border border-white/8 bg-white/[0.025] px-4 py-3">
+          <div className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-violet-300">
+            Hermes
+          </div>
+          <p className="whitespace-pre-wrap text-sm leading-6 text-slate-200">{message.text}</p>
+        </div>
       </div>
     </div>
   );

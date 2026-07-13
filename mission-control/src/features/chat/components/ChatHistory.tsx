@@ -1,40 +1,44 @@
 import { MessageSquareText } from "lucide-react";
+import type { HermesMission } from "../../../api/missions";
 import ChatMessage from "./ChatMessage";
 import type { ConversationMessage } from "../types";
 
 interface ChatHistoryProps {
   messages: ConversationMessage[];
+  busyMissionId?: string | null;
+  onApprove?: (mission: HermesMission) => void;
+  onReject?: (mission: HermesMission) => void;
 }
 
 export default function ChatHistory({
   messages,
+  busyMissionId,
+  onApprove,
+  onReject,
 }: ChatHistoryProps) {
   if (messages.length === 0) {
     return (
-      <div className="mb-6 flex min-h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-cyan-400/15 bg-slate-950/35 p-6 text-center">
-        <MessageSquareText
-          className="mb-3 text-cyan-400/60"
-          size={28}
-        />
-
-        <div className="font-semibold text-slate-300">
-          Începe o conversație cu Hermes
+      <div className="flex min-h-[280px] flex-col items-center justify-center rounded-[28px] border border-dashed border-white/10 bg-white/[0.018] p-8 text-center">
+        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/15 bg-cyan-300/8 text-cyan-300">
+          <MessageSquareText size={23} />
         </div>
-
-        <p className="mt-2 max-w-lg text-sm text-slate-500">
-          Scrie o comandă precum „status VM 110” sau
-          „repornește VM 110”.
+        <div className="text-base font-semibold text-slate-200">Conversația începe aici</div>
+        <p className="mt-2 max-w-md text-sm leading-6 text-slate-500">
+          Cere o explicație sau pornește o operație reală: „status VM 110” ori „repornește VM 110”.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="mb-6 max-h-[620px] space-y-4 overflow-y-auto rounded-2xl border border-cyan-400/10 bg-slate-950/35 p-4">
+    <div className="space-y-5 py-2">
       {messages.map((message) => (
         <ChatMessage
           key={message.id}
           message={message}
+          busyMissionId={busyMissionId}
+          onApprove={onApprove}
+          onReject={onReject}
         />
       ))}
     </div>
