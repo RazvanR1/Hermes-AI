@@ -8,7 +8,8 @@ from telegram_v8 import (
     format_mission_event,
     answer_callback_query,
 )
-from approval_engine_v8 import approve_step, reject_step, run_approved_steps
+from approval_engine_v8 import approve_step, reject_step
+from beta1_execution_pipeline_v8 import execute_approved_steps
 
 router = APIRouter(prefix="/telegram/v8", tags=["telegram-v8"])
 
@@ -57,7 +58,7 @@ def webhook(update: Dict[str, Any]):
     chat = message.get("chat") or {}
     chat_id = str(chat.get("id")) if chat.get("id") is not None else None
 
-    parts = data.split(":")
+    parts = data.split("|")
     if len(parts) != 3:
         if callback_id:
             answer_callback_query(callback_id, "Invalid Hermes callback")
@@ -65,7 +66,7 @@ def webhook(update: Dict[str, Any]):
 
     command, mission_id, step_id = parts
 
-    if command == "approve":
+    if command in ("approve", "a"):
         approval = approve_step(mission_id, step_id)
         if callback_id:
             answer_callback_query(callback_id, "Approved. Running mission...")
@@ -73,10 +74,10 @@ def webhook(update: Dict[str, Any]):
             f"✅ <b>Hermes</b>\nApproved mission <code>{mission_id}</code>\n▶️ Running...",
             chat_id=chat_id,
         )
-        execution = run_approved_steps(mission_id)
+        execution = execute_approved_steps(mission_id)
         return {"ok": True, "command": command, "approval": approval, "execution": execution}
 
-    if command == "reject":
+    if command in ("reject", "r"):
         rejection = reject_step(mission_id, step_id, "Rejected from Telegram")
         if callback_id:
             answer_callback_query(callback_id, "Rejected.")

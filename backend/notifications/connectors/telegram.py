@@ -52,11 +52,11 @@ class TelegramNotificationConnector:
                 [
                     {
                         "text": "✅ Approve",
-                        "callback_data": f"approve:{event.mission_id}:{step_id}",
+                        "callback_data": f"a|{event.mission_id}|{step_id}",
                     },
                     {
                         "text": "❌ Reject",
-                        "callback_data": f"reject:{event.mission_id}:{step_id}",
+                        "callback_data": f"r|{event.mission_id}|{step_id}",
                     },
                 ]
             ]
