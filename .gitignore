@@ -4,3 +4,17 @@
 __pycache__/
 *.pyc
 backend/data/*.json.tmp
+
+# Hermes runtime data
+backend/data/events_v8.json
+backend/data/missions_v8.json
+
+# Local backups and generated installation packs
+backups/
+hermes-chatpage-v2/
+hermes-console-v8-patch/
+*.tar.gz
+
+# Frontend generated files
+mission-control/node_modules/
+mission-control/dist/
