@@ -24,6 +24,7 @@ import { approveMission, rejectMission } from "../../api/approval";
 import { getApiErrorMessage } from "../../api/client";
 import { useAgentStore } from "../../context/AgentStore";
 import { useMissionLive } from "../../hooks/useMissionLive";
+import { ChatHistory, useConversation } from "../../features/chat";
 
 const quick = [
   "status VM 110",
@@ -91,6 +92,14 @@ export default function MissionConsole() {
   const [error, setError] = useState<string | null>(null);
   const { updateAgent, resetAgents } = useAgentStore();
 
+  const {
+    messages: conversationMessages,
+    addUserMessage,
+    addAssistantMessage,
+    addMissionMessage,
+    updateMissionMessage,
+  } = useConversation();
+
   const missionIsTerminal = mission
     ? terminalMissionStatuses.has(mission.status.toLowerCase())
     : false;
@@ -105,6 +114,7 @@ export default function MissionConsole() {
     intervalMs: 1500,
     onUpdate: (freshMission) => {
       setMission(freshMission);
+      updateMissionMessage(freshMission);
 
       const freshStatus = freshMission.status.toLowerCase();
 
@@ -146,6 +156,9 @@ export default function MissionConsole() {
     const trimmedMessage = message.trim();
     if (!trimmedMessage || loading) return;
 
+    addUserMessage(trimmedMessage);
+    addAssistantMessage("Analizez cererea și construiesc planul de execuție...");
+
     setLoading(true);
     setPhase("planning");
     setResponse(null);
@@ -172,6 +185,12 @@ export default function MissionConsole() {
       const result = await runMission(trimmedMessage);
       setResponse(result);
       setMission(result.mission);
+      addMissionMessage(
+        result.mission,
+        result.summary.requires_approval > 0
+          ? "Am analizat cererea. Misiunea necesită aprobarea ta înainte de execuție."
+          : "Am analizat cererea. Misiunea este sigură și poate fi executată.",
+      );
       setTimeline((current) => [
         ...current,
         `Mission created: ${result.mission.mission_id}`,
@@ -327,6 +346,8 @@ export default function MissionConsole() {
           </p>
         </div>
       </div>
+
+      <ChatHistory messages={conversationMessages} />
 
       <textarea
         value={message}

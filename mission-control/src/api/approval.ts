@@ -1,40 +1,90 @@
 import { api } from "./client";
+import type { HermesMission } from "./missions";
 
-export interface ApprovalResponse {
-  status: string;
-  message?: string;
-  mission: string;
+export interface ApprovalResult {
+  ok: boolean;
+  mission?: HermesMission;
+  error?: string;
+  mission_id?: string;
+  step_id?: string;
+}
 
-  events: {
-    agent: string;
-    status: string;
-  }[];
+export interface ExecutionResult {
+  ok: boolean;
+  mission?: HermesMission;
+  error?: string;
+  mission_id?: string;
+}
 
-  executed: {
-    ok: boolean;
-    steps: {
-      step: number;
-      title: string;
-      tool: string;
-      action: string;
-      result: {
-        ok: boolean;
-        output?: string;
-        error?: string;
-      };
-    }[];
-  };
+export interface ApproveAndExecuteResult {
+  approvals: ApprovalResult[];
+  execution: ExecutionResult;
+}
+
+export async function approveStep(
+  missionId: string,
+  stepId: string,
+): Promise<ApprovalResult> {
+  const response = await api.post<ApprovalResult>("/approval/v8/approve", {
+    mission_id: missionId,
+    step_id: stepId,
+  });
+
+  return response.data;
+}
+
+export async function rejectStep(
+  missionId: string,
+  stepId: string,
+  reason = "Rejected from Hermes Console",
+): Promise<ApprovalResult> {
+  const response = await api.post<ApprovalResult>("/approval/v8/reject", {
+    mission_id: missionId,
+    step_id: stepId,
+    reason,
+  });
+
+  return response.data;
+}
+
+export async function executeApprovedMission(
+  missionId: string,
+): Promise<ExecutionResult> {
+  const response = await api.post<ExecutionResult>(
+    `/approval/v8/${encodeURIComponent(missionId)}/run-approved`,
+  );
+
+  return response.data;
 }
 
 export async function approveMission(
-  mission: string,
-  plan: any
-): Promise<ApprovalResponse> {
-  const res = await api.post("/missions/approve", {
-    mission,
-    approved: true,
-    plan,
-  });
+  missionId: string,
+  stepIds: string[],
+): Promise<ApproveAndExecuteResult> {
+  const approvals: ApprovalResult[] = [];
 
-  return res.data.data;
+  for (const stepId of stepIds) {
+    const result = await approveStep(missionId, stepId);
+    approvals.push(result);
+
+    if (!result.ok) {
+      throw new Error(result.error ?? `Could not approve step ${stepId}.`);
+    }
+  }
+
+  const execution = await executeApprovedMission(missionId);
+  return { approvals, execution };
+}
+
+export async function rejectMission(
+  missionId: string,
+  stepIds: string[],
+): Promise<ApprovalResult[]> {
+  const rejections: ApprovalResult[] = [];
+
+  for (const stepId of stepIds) {
+    rejections.push(await rejectStep(missionId, stepId));
+  }
+
+  return rejections;
 }
